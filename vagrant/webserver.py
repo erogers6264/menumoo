@@ -12,7 +12,10 @@ class WebServerHandler(BaseHTTPRequestHandler):
 
 				output = ""
 				output += "<html><body>Hello!"
-				output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name='message' type='text'><input type='submit' value='Submit'></form>"
+				output += "<form method='POST' enctype='multipart/form-data'\
+					   action='/hello'><h2>What would you like me to say?</h2>\
+					   <input name='message' type='text'><input type='submit'\
+					   value='Submit'></form>"
 				output += "</body></html>"
 				self.wfile.write(output)
 				print output
@@ -23,8 +26,11 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				self.end_headers()
 
 				output = ""
-				output += "<html><body>&#161Hola! <a href = '/hello'>Back to Hello</a></body></html>"
-				output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name='message' type='text'><input type='submit' value='Submit'></form>"
+				output += "<html><body>&#161Hola! <a href = '/hello'>Back to Hello</a>"
+				output += "<form method='POST' enctype='multipart/form-data'\
+					   action='/hello'><h2>What would you like me to say?</h2>\
+					   <input name='message' type='text'><input type='submit'\
+					   value='Submit'></form>"
 				output += "</html></body>"
 
 				self.wfile.write(output)
@@ -49,7 +55,10 @@ class WebServerHandler(BaseHTTPRequestHandler):
 			output += " <h2> Okay, how about this: </h2>"
 			output += "<h1> %s </h1>" % messagecontent[0]
 
-			output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name='message' type='text'><input type='submit' value='Submit'></form>"
+			output += "<form method='POST' enctype='multipart/form-data'\
+					   action='/hello'><h2>What would you like me to say?</h2>\
+					   <input name='message' type='text'><input type='submit'\
+					   value='Submit'></form>"
 			output += "</html></body>"
 			self.wfile.write(output)
 			print output
