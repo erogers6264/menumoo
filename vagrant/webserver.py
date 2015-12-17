@@ -1,8 +1,12 @@
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from database_setup import Restaurant, Menu, Base
+
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import cgi
 
-class WebServerHandler(BaseHTTPRequestHandler):
 
+class WebServerHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		try:
 			if self.path.endswith("/hello"):
@@ -12,24 +16,33 @@ class WebServerHandler(BaseHTTPRequestHandler):
 
 				output = ""
 				output += "<html><body>Hello!"
-				output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name='message' type='text'><input type='submit' value='Submit'></form>"
+				output += "<form method='POST' enctype='multipart/form-data'\
+						   action='/hello'><h2>What would you like me to say?\
+						   </h2><input name='message' type='text'><input \
+						   type='submit' value='Submit'></form>"
 				output += "</body></html>"
 				self.wfile.write(output)
 				print output
 				return
+
 			if self.path.endswith("/hola"):
 				self.send_response(200)
 				self.send_header('Content-type', 'text/html')
 				self.end_headers()
 
 				output = ""
-				output += "<html><body>&#161Hola! <a href = '/hello'>Back to Hello</a></body></html>"
-				output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name='message' type='text'><input type='submit' value='Submit'></form>"
+				output += "<html><body>&#161Hola! <a href = '/hello'>Back to\
+						   Hello</a>"
+				output += "<form method='POST' enctype='multipart/form-data'\
+						   action='/hello'><h2>What would you like me to say?\
+						   </h2><input name='message' type='text'><input \
+						   type='submit' value='Submit'></form>"
 				output += "</html></body>"
 
 				self.wfile.write(output)
 				print output
 				return 
+
 		except IOError:
 			self.send_error(404, "File not found %s" % self.path)
 
@@ -48,8 +61,10 @@ class WebServerHandler(BaseHTTPRequestHandler):
 			output += "<html><body>"
 			output += " <h2> Okay, how about this: </h2>"
 			output += "<h1> %s </h1>" % messagecontent[0]
-
-			output += "<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name='message' type='text'><input type='submit' value='Submit'></form>"
+			output += "<form method='POST' enctype='multipart/form-data'\
+						   action='/hello'><h2>What would you like me to say?\
+						   </h2><input name='message' type='text'><input \
+						   type='submit' value='Submit'></form>"
 			output += "</html></body>"
 			self.wfile.write(output)
 			print output
