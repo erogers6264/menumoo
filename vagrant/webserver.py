@@ -25,10 +25,10 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output += "<html><body>"
 
 				eateries = session.query(Restaurant).all()
+				# List comprehensions are useful.
 				names = [eatery.name for eatery in eateries]
-				print names
+
 				for name in names:
-					print name
 					output += "<h2> %s </h2>" % name
 
 				output += "</html></body>"
