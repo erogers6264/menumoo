@@ -24,6 +24,18 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output = ""
 				output += "<html><body>"
 
+				eateries = session.query(Restaurant).all()
+				names = [eatery.name for eatery in eateries]
+				print names
+				for name in names:
+					print name
+					output += "<h2> %s </h2>" % name
+
+				output += "</html></body>"
+				self.wfile.write(output)
+				return
+				
+
 			if self.path.endswith("/hello"):
 				self.send_response(200)
 				self.send_header('Content-type', 'text/html')
