@@ -17,14 +17,29 @@ session = DBSession()
 class WebServerHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		try:
-			if self.path.endswith("/restaurants"):
+			if self.path.endswith("/new"):
 				self.send_response(200)
 				self.send_header('Content-type', 'text/html')
 				self.end_headers()
 
 				output = ""
 				output += "<html><body>"
+				output += "<form method='POST' enctype='multipart/form-data'\
+						   action='/new'><h2>What is the new restaurant called?\
+						   </h2><input name='message' type='text'><input \
+						   type='submit' value='Submit'></form>"
+						   
+				self.wfile.write(output)
+				return
 
+
+			if self.path.endswith("/restaurants"):
+				self.send_response(200)
+				self.send_header('Content-type', 'text/html')
+				self.end_headers()
+
+				output = ""
+				output += "<html><body>New Restaurant"
 				eateries = session.query(Restaurant).all()
 				# List comprehensions are useful.
 				names = [eatery.name for eatery in eateries]
@@ -34,6 +49,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 					output += "<p><a href='/edit'> Edit </a></p>"
 					output += "<p><a href='/delete'> Delete </a></p>"
 
+				output += "<p><a href='/new'>Add new restaurant</a></p>"
 				output += "</html></body>"
 				self.wfile.write(output)
 				return
@@ -78,6 +94,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 
 	def do_POST(self):
 		try:
+
 			self.send_response(301)
 			self.end_headers()
 
