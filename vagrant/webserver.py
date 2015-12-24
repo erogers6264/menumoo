@@ -1,3 +1,4 @@
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Restaurant, MenuItem, Base
@@ -30,6 +31,8 @@ class WebServerHandler(BaseHTTPRequestHandler):
 
 				for name in names:
 					output += "<h2> %s </h2>" % name
+					output += "<p><a href='/edit'> Edit </a></p>"
+					output += "<p><a href='/delete'> Delete </a></p>"
 
 				output += "</html></body>"
 				self.wfile.write(output)
