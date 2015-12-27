@@ -17,7 +17,7 @@ session = DBSession()
 class WebServerHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		try:
-			if self.path.endswith("/new"):
+			if self.path.endswith("/restaurants/new"):
 				self.send_response(200)
 				self.send_header('Content-type', 'text/html')
 				self.end_headers()
@@ -25,7 +25,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output = ""
 				output += "<html><body>"
 				output += "<form method='POST' enctype='multipart/form-data'\
-						   action='/new'><h2>What is the new restaurant called?\
+						   action='/restaurants/new'><h2>What is the new restaurant called?\
 						   </h2><input name='message' type='text'><input \
 						   type='submit' value='Submit'></form>"
 
@@ -41,19 +41,18 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output = ""
 				output += "<html><body>New Restaurant"
 				eateries = session.query(Restaurant).all()
-				# List comprehensions are useful.
-				names = [eatery.name for eatery in eateries]
+				# List comprehensions are useful
+				idnames = [(eatery.id, eatery.name) for eatery in eateries]
 
-				for name in names:
+				for id_number, name in idnames:
 					output += "<h2> %s </h2>" % name
-					output += "<p><a href='/edit'> Edit </a></p>"
+					output += "<p><a href='/restaurants/%r/edit'> Edit </a></p>" % id_number
 					output += "<p><a href='/delete'> Delete </a></p>"
 
-				output += "<p><a href='/new'>Add new restaurant</a></p>"
+				output += "<p><a href='/restaurants/new'>Add new restaurant</a></p>"
 				output += "</html></body>"
 				self.wfile.write(output)
 				return
-				
 
 			if self.path.endswith("/hello"):
 				self.send_response(200)
@@ -92,7 +91,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 
 	def do_POST(self):
 		try:
-			if self.path.endswith('/new'):
+			if self.path.endswith('/restaurants/new'):
 				self.send_response(301)
 				self.end_headers()
 
@@ -109,7 +108,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output += "<html><body>"
 				output += " <h2> Added new restaurant %s </h2>" % neatery.name
 				output += "<form method='POST' enctype='multipart/form-data'\
-						   action='/new'><h2>What is the new restaurant called?\
+						   action='/restaurants/new'><h2>What is the new restaurant called?\
 						   </h2><input name='message' type='text'><input \
 						   type='submit' value='Submit'></form>"
 				output += "</html></body>"
