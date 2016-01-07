@@ -99,7 +99,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output += "<form method='POST' enctype='multipart/form-data'\
 						   action='/restaurants/new'><h2>What is the new restaurant called?\
 						   </h2><input name='message' type='text' placeholder = '%s'><input \
-						   type='submit' value='Submit'></form>".format(restaurant.name)
+						   type='submit' value='Submit'></form>" % restaurant.name
 
 				self.wfile.write(output)
 				return				
