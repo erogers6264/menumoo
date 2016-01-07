@@ -42,7 +42,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output += "<html><body>New Restaurant"
 				eateries = session.query(Restaurant).all()
 				# List comprehensions are useful
-				idnames = [(eatery.id, eatery.name) for eatery in eateries]
+				idnames = [(eatery.restaurant_id, eatery.name) for eatery in eateries]
 
 				for id_number, name in idnames:
 					output += "<h2> %s </h2>" % name
@@ -84,7 +84,25 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output += "</html></body>"
 
 				self.wfile.write(output)
-				return 
+				return
+
+			if self.path.endswith("/edit"):
+				self.send_response(200)
+				self.send_header('Content-type', 'text/html')
+				self.end_headers()
+
+				restaurantid = self.path.split('/')[2]
+				restaurant = session.query(Restaurant).filter(Restaurant.restaurant_id == restaurantid).first()
+
+				output = ""
+				output += "<html><body>"
+				output += "<form method='POST' enctype='multipart/form-data'\
+						   action='/restaurants/new'><h2>What is the new restaurant called?\
+						   </h2><input name='message' type='text' placeholder = '%s'><input \
+						   type='submit' value='Submit'></form>".format(restaurant.name)
+
+				self.wfile.write(output)
+				return				
 
 		except IOError:
 			self.send_error(404, "File not found %s" % self.path)
