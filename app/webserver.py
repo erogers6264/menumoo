@@ -14,6 +14,18 @@ DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
 
+html_escape_table = {
+    "&": "&amp;",
+    '"': "&quot;",
+    "'": "&apos;",
+    ">": "&gt;",
+    "<": "&lt;",
+    }
+
+def html_escape(text):
+    """Produce entities within text."""
+    return "".join(html_escape_table.get(c,c) for c in text)
+
 class WebServerHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		try:
@@ -92,14 +104,16 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				self.end_headers()
 
 				restaurantid = self.path.split('/')[2]
-				restaurant = session.query(Restaurant).filter(Restaurant.restaurant_id == restaurantid).first()
+				restaurant = session.query(Restaurant).filter(Restaurant.\
+							 restaurant_id == restaurantid).first()
 
 				output = ""
 				output += "<html><body>"
 				output += "<form method='POST' enctype='multipart/form-data'\
-						   action='/restaurants/new'><h2>What is the new restaurant called?\
-						   </h2><input name='message' type='text' placeholder = '%s'><input \
-						   type='submit' value='Submit'></form>" % restaurant.name
+						   action='/restaurants/new'><h2>What is the new\
+						   restaurant called?</h2><input name='message' type=\
+						   'text' placeholder='{}'><input type='submit' value=\
+						   'Submit'></form>".format(html_escape(restaurant.name))
 
 				self.wfile.write(output)
 				return				
@@ -126,9 +140,9 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output += "<html><body>"
 				output += " <h2> Added new restaurant %s </h2>" % neatery.name
 				output += "<form method='POST' enctype='multipart/form-data'\
-						   action='/restaurants/new'><h2>What is the new restaurant called?\
-						   </h2><input name='message' type='text'><input \
-						   type='submit' value='Submit'></form>"
+						   action='/restaurants/new'><h2>What is the new\
+						   restaurant called?</h2><input name='message' type=\
+						   'text'><input type='submit' value='Submit'></form>"
 				output += "</html></body>"
 				self.wfile.write(output)
 				return
@@ -151,6 +165,30 @@ class WebServerHandler(BaseHTTPRequestHandler):
 							action='/hello'><h2>What would you like me to say?\
 							</h2><input name='message' type='text'><input \
 							type='submit' value='Submit'></form>"
+				output += "</html></body>"
+				self.wfile.write(output)
+				return
+
+			if self.path.endswith('/edit'):
+				self.send_response(301)
+				self.end_headers()
+
+				ctype, pdict = cgi.parse_header(self.headers.getheader(
+													'content-type'))
+				if ctype == 'multipart/form-data':
+					fields=cgi.parse_multipart(self.rfile, pdict)
+					messagecontent = fields.get('message')
+
+				neatery = Restaurant(name = str(messagecontent[0]))
+				session.add(neatery)
+				session.commit()
+				output = ""
+				output += "<html><body>"
+				output += " <h2> Added new restaurant %s </h2>" % neatery.name
+				output += "<form method='POST' enctype='multipart/form-data'\
+						   action='/restaurants/new'><h2>What is the new\
+						   restaurant called?</h2><input name='message' type=\
+						   'text'><input type='submit' value='Submit'></form>"
 				output += "</html></body>"
 				self.wfile.write(output)
 				return
