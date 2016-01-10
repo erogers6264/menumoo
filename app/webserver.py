@@ -110,10 +110,10 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				output = ""
 				output += "<html><body>"
 				output += "<form method='POST' enctype='multipart/form-data'\
-						   action='/restaurants/new'><h2>What is the new\
-						   restaurant called?</h2><input name='message' type=\
-						   'text' placeholder='{}'><input type='submit' value=\
-						   'Submit'></form>".format(html_escape(restaurant.name))
+						   action='restaurants/{0}/edit'><h2>What would you like\
+						   to rename as?</h2><input name='message' type=\
+						   'text' placeholder='{1}'><input type='submit' value=\
+						   'Submit'></form>".format(restaurantid, html_escape(restaurant.name))
 
 				self.wfile.write(output)
 				return				
@@ -133,12 +133,12 @@ class WebServerHandler(BaseHTTPRequestHandler):
 					fields=cgi.parse_multipart(self.rfile, pdict)
 					messagecontent = fields.get('message')
 
-				neatery = Restaurant(name = str(messagecontent[0]))
-				session.add(neatery)
+				new_eatery = Restaurant(name = str(messagecontent[0]))
+				session.add(new_eatery)
 				session.commit()
 				output = ""
 				output += "<html><body>"
-				output += " <h2> Added new restaurant %s </h2>" % neatery.name
+				output += " <h2> Added new restaurant %s </h2>" % new_eatery.name
 				output += "<form method='POST' enctype='multipart/form-data'\
 						   action='/restaurants/new'><h2>What is the new\
 						   restaurant called?</h2><input name='message' type=\
@@ -171,6 +171,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 
 			if self.path.endswith('/edit'):
 				self.send_response(301)
+				self.send_header('Location', '/restaurants')
 				self.end_headers()
 
 				ctype, pdict = cgi.parse_header(self.headers.getheader(
@@ -179,18 +180,14 @@ class WebServerHandler(BaseHTTPRequestHandler):
 					fields=cgi.parse_multipart(self.rfile, pdict)
 					messagecontent = fields.get('message')
 
-				neatery = Restaurant(name = str(messagecontent[0]))
-				session.add(neatery)
+				restaurantid = self.path.split('/')[2]
+				restaurant = session.query(Restaurant).filter(Restaurant.\
+							 restaurant_id == restaurantid).first()
+
+				restaurant.name = str(messagecontent[0])
+				session.add(restaurant)
 				session.commit()
-				output = ""
-				output += "<html><body>"
-				output += " <h2> Added new restaurant %s </h2>" % neatery.name
-				output += "<form method='POST' enctype='multipart/form-data'\
-						   action='/restaurants/new'><h2>What is the new\
-						   restaurant called?</h2><input name='message' type=\
-						   'text'><input type='submit' value='Submit'></form>"
-				output += "</html></body>"
-				self.wfile.write(output)
+
 				return
 
 		except Exception:
