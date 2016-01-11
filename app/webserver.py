@@ -59,7 +59,7 @@ class WebServerHandler(BaseHTTPRequestHandler):
 				for id_number, name in idnames:
 					output += "<h2> %s </h2>" % name
 					output += "<p><a href='/restaurants/%r/edit'> Edit </a></p>" % id_number
-					output += "<p><a href='/delete'> Delete </a></p>"
+					output += "<p><a href='/restaurants/%r/delete'> Delete </a></p>" % id_number
 
 				output += "<p><a href='/restaurants/new'>Add new restaurant</a></p>"
 				output += "</html></body>"
@@ -116,7 +116,29 @@ class WebServerHandler(BaseHTTPRequestHandler):
 						   'Submit'></form>".format(restaurantid, html_escape(restaurant.name))
 
 				self.wfile.write(output)
-				return				
+				return
+
+			if self.path.endswith("/delete"):
+				self.send_response(200)
+				self.send_header('Content-type', 'text/html')
+				self.end_headers()
+
+				restaurantid = self.path.split('/')[2]
+				restaurant = session.query(Restaurant).filter(Restaurant.\
+							 restaurant_id == restaurantid).first()
+
+				output = ""
+				output += "<html><body>"
+				output += "<form method='POST' enctype='multipart/form-data'\
+						   action='restaurants/{0}/delete'><h2>Are you sure \
+						   you'd like to delete {1}?</h2><input type='submit'\
+						   value='Yes'>".format(restaurantid, html_escape(restaurant.name))
+				output += "<input type='button' value='Cancel' onclick='window.location="
+				output +='"/restaurants"'
+				output +=";'></form>"
+
+				self.wfile.write(output)
+				return					
 
 		except IOError:
 			self.send_error(404, "File not found %s" % self.path)
@@ -186,6 +208,19 @@ class WebServerHandler(BaseHTTPRequestHandler):
 
 				restaurant.name = str(messagecontent[0])
 				session.add(restaurant)
+				session.commit()
+
+				return
+
+			if self.path.endswith('/delete'):
+				self.send_response(301)
+				self.send_header('Location', '/restaurants')
+				self.end_headers()
+
+				restaurantid = self.path.split('/')[2]
+				session.query(Restaurant).filter(Restaurant.restaurant_id ==
+												 restaurantid).delete()
+
 				session.commit()
 
 				return
