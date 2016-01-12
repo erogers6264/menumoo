@@ -15,9 +15,11 @@
 
 <p> {{i.price}} </p>
 
-<p> <a href="{%url_for('edit', restaurant_id = restaurant.restaurant_id, menu_id = i.item_id)%}">Edit</a> </p>
+<p><a href={{ url_for('editMenuItem', restaurant_id =
+restaurant.restaurant_id, menu_id = i.item_id) }}>Edit</a></p>
 
-<p> <a href="{%url_for('delete', restaurant_id = restaurant.restaurant_id, menu_id = i.item_id)%}">Delete</a> </p>
+<p><a href={{ url_for('deleteMenuItem', restaurant_id =
+restaurant.restaurant_id, menu_id = i.item_id) }}>Delete</a></p>
 
 <br>
 
