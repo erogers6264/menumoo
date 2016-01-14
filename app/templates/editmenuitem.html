@@ -9,6 +9,7 @@
 	<p>New name:</p>
 	<input type="text" size="30" name="name" placeholder="{{item.name}}">
 	<input type="submit" value="Submit edit">
+	<a href="{{ url_for('restaurantMenu', restaurant_id = restaurant_id) }}"><input type="button" value="Cancel"></a>
 </form>
 
 </body>
