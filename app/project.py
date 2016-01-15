@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -12,7 +12,7 @@ session = DBSession()
 
 app = Flask(__name__)
 
-
+# This function queries the database for the items of the restaurant
 @app.route('/')
 @app.route('/restaurants/<int:restaurant_id>/')
 def restaurantMenu(restaurant_id):
@@ -31,6 +31,7 @@ def newMenuItem(restaurant_id):
                            restaurant_id=restaurant_id)
         session.add(newItem)
         session.commit()
+        flash('New menu item created!')
         return redirect(url_for('restaurantMenu',
                                 restaurant_id=restaurant_id))
     else:
@@ -76,5 +77,6 @@ def deleteMenuItem(restaurant_id, MenuID):
 
 
 if __name__ == '__main__':
+    app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=5000)
