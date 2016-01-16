@@ -13,7 +13,7 @@ session = DBSession()
 
 app = Flask(__name__)
 
-# Making an API endpoint (GET request)
+# Making an API endpoint for entire menu (GET request)
 @app.route('/restaurants/<int:restaurant_id>/menu/JSON')
 def restaurantMenuJSON(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(
@@ -21,6 +21,13 @@ def restaurantMenuJSON(restaurant_id):
     items = session.query(MenuItem).filter_by(
         restaurant_id=restaurant_id).all()
     return jsonify(MenuItems=[i.serialize for i in items])
+
+# API endpoint for a single menu item
+@app.route('/restaurants/<int:restaurant_id>/menu/<int:item_id>/JSON')
+def menuItemJSON(restaurant_id, item_id):
+    item = session.query(MenuItem).filter_by(
+        restaurant_id=restaurant_id, item_id=item_id).one()
+    return jsonify(MenuItem=item.serialize)
 
 # This function queries the database for the items of the restaurant
 @app.route('/')
@@ -71,7 +78,6 @@ def editMenuItem(restaurant_id, MenuID):
 
 
 # Route for deleteMenuItem function
-
 @app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/delete/',
            methods=['GET', 'POST'])
 def deleteMenuItem(restaurant_id, MenuID):
