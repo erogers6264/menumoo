@@ -13,6 +13,7 @@ Base = declarative_base()
 
 class Restaurant(Base):
 	"""docstring for Restaurant"""
+	
 	__tablename__ = 'restaurant'
 
 	name = Column(String(80), nullable = False)
