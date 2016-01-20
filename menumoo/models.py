@@ -1,4 +1,3 @@
-
 import sys
 
 from sqlalchemy import Column, ForeignKey, Integer, String
@@ -12,7 +11,7 @@ from sqlalchemy import create_engine
 Base = declarative_base()
 
 class Restaurant(Base):
-	"""docstring for Restaurant"""
+	"""A simple class for the restaurants in the database"""
 	
 	__tablename__ = 'restaurant'
 
@@ -21,7 +20,7 @@ class Restaurant(Base):
 
 
 class MenuItem(Base):
-	"""docstring for MenuItem"""
+	"""A class containing information about menu items in the restaurants"""
 	__tablename__ = 'menu_item'
 
 	name = Column(String(80), nullable = False)
@@ -44,7 +43,7 @@ class MenuItem(Base):
 	    }
 
 
-### END ###
+#  End
 engine = create_engine('sqlite:///restaurantmenu.db')
 
 Base.metadata.create_all(engine)
