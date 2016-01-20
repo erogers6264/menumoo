@@ -38,6 +38,12 @@ def allRestaurants():
     return "This page will show all the restaurants."
 
 
+#  This function will return a page to create a new restaurant
+@app.route('/restaurant/new/')
+def newRestaurant():
+    return "This page will show a form for creating a new restaurant"
+
+
 # This function queries the database for the items of the restaurant
 @app.route('/restaurants/<int:restaurant_id>/')
 @app.route('/restaurants/<int:restaurant_id>/menu/')
