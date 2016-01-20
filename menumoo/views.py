@@ -12,7 +12,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 
-# Making an API endpoint for entire menu (GET request)
+#  Making an API endpoint for entire menu (GET request)
 @app.route('/restaurants/<int:restaurant_id>/menu/JSON/')
 def restaurantMenuJSON(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(
@@ -22,7 +22,7 @@ def restaurantMenuJSON(restaurant_id):
     return jsonify(MenuItems=[i.serialize for i in items])
 
 
-# API endpoint for a single menu item
+#  API endpoint for a single menu item
 @app.route('/restaurants/<int:restaurant_id>/menu/<int:item_id>/JSON/')
 def menuItemJSON(restaurant_id, item_id):
     item = session.query(MenuItem).filter_by(
@@ -44,19 +44,19 @@ def newRestaurant():
     return "This page shows a form for creating a new restaurant."
 
 
-# This function returns a page for editing a restaurant's information
+#  This function returns a page for editing a restaurant's information
 @app.route('/restaurant/<int:restaurant_id>/edit/')
 def editRestaurant(restaurant_id):
     return "This page edits a restaurant's information."
 
 
-# This function returns a page confirming deletion of a restaurant
+#  This function returns a page confirming deletion of a restaurant
 @app.route('/restaurant/<int:restaurant_id>/delete/')
 def deleteRestaurant(restaurant_id):
     return "This page confirms the deletion of a restaurant."
 
 
-# This function queries the database for the items of the restaurant
+#  This function queries the database for the items of the restaurant
 @app.route('/restaurants/<int:restaurant_id>/')
 @app.route('/restaurants/<int:restaurant_id>/menu/')
 def restaurantMenu(restaurant_id):
@@ -66,7 +66,7 @@ def restaurantMenu(restaurant_id):
     return render_template('menu.html', restaurant=restaurant, items=items)
 
 
-# Route for newMenuItem function
+#  Route for newMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/new/', methods=['GET', 'POST'])
 @app.route('/restaurants/<int:restaurant_id>/menu/new/', methods=['GET', 'POST'])
 def newMenuItem(restaurant_id):
@@ -83,7 +83,7 @@ def newMenuItem(restaurant_id):
                                restaurant_id=restaurant_id)
 
 
-# Route for editMenuItem function
+#  Route for editMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/edit/',
            methods=['GET', 'POST'])
 def editMenuItem(restaurant_id, MenuID):
@@ -105,7 +105,7 @@ def editMenuItem(restaurant_id, MenuID):
                                item=editedItem)
 
 
-# Route for deleteMenuItem function
+#  Route for deleteMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/delete/',
            methods=['GET', 'POST'])
 def deleteMenuItem(restaurant_id, MenuID):
