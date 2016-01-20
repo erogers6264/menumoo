@@ -13,7 +13,7 @@ session = DBSession()
 
 
 # Making an API endpoint for entire menu (GET request)
-@app.route('/restaurants/<int:restaurant_id>/menu/JSON')
+@app.route('/restaurants/<int:restaurant_id>/menu/JSON/')
 def restaurantMenuJSON(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
@@ -23,16 +23,24 @@ def restaurantMenuJSON(restaurant_id):
 
 
 # API endpoint for a single menu item
-@app.route('/restaurants/<int:restaurant_id>/menu/<int:item_id>/JSON')
+@app.route('/restaurants/<int:restaurant_id>/menu/<int:item_id>/JSON/')
 def menuItemJSON(restaurant_id, item_id):
     item = session.query(MenuItem).filter_by(
         restaurant_id=restaurant_id, item_id=item_id).one()
     return jsonify(MenuItem=item.serialize)
 
 
-# This function queries the database for the items of the restaurant
+#  This view shows all restaurants, allowing you to navigate to their
+#  specific menus as well as edit or delete restaurants
 @app.route('/')
+@app.route('/restaurants/')
+def allRestaurants():
+    return "This page will show all the restaurants."
+
+
+# This function queries the database for the items of the restaurant
 @app.route('/restaurants/<int:restaurant_id>/')
+@app.route('/restaurants/<int:restaurant_id>/menu/')
 def restaurantMenu(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
