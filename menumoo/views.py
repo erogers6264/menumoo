@@ -35,13 +35,25 @@ def menuItemJSON(restaurant_id, item_id):
 @app.route('/')
 @app.route('/restaurants/')
 def allRestaurants():
-    return "This page will show all the restaurants."
+    return "This page shows all the restaurants."
 
 
-#  This function will return a page to create a new restaurant
+#  This function returns a page to create a new restaurant
 @app.route('/restaurant/new/')
 def newRestaurant():
-    return "This page will show a form for creating a new restaurant"
+    return "This page shows a form for creating a new restaurant."
+
+
+# This function returns a page for editing a restaurant's information
+@app.route('/restaurant/<int:restaurant_id>/edit/'):
+def editRestaurant(restaurant_id):
+    return "This page edits a restaurant's information."
+
+
+# This function returns a page confirming deletion of a restaurant
+@app.route('/restaurant/<int:restaurant_id>/delete/'):
+def deleteRestaurant(restaurant_id):
+    return "This page confirms the deletion of a restaurant."
 
 
 # This function queries the database for the items of the restaurant
@@ -56,6 +68,7 @@ def restaurantMenu(restaurant_id):
 
 # Route for newMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/new/', methods=['GET', 'POST'])
+@app.route('/restaurants/<int:restaurant_id>/menu/new/', methods=['GET', 'POST'])
 def newMenuItem(restaurant_id):
     if request.method == 'POST':
         newItem = MenuItem(name=request.form['name'],
