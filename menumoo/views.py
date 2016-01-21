@@ -39,19 +39,19 @@ def allRestaurants():
 
 
 #  This function returns a page to create a new restaurant
-@app.route('/restaurant/new/')
+@app.route('/restaurants/new/')
 def newRestaurant():
     return "This page shows a form for creating a new restaurant."
 
 
 # This function returns a page for editing a restaurant's information
-@app.route('/restaurant/<int:restaurant_id>/edit/')
+@app.route('/restaurants/<int:restaurant_id>/edit/')
 def editRestaurant(restaurant_id):
     return "This page edits a restaurant's information."
 
 
 # This function returns a page confirming deletion of a restaurant
-@app.route('/restaurant/<int:restaurant_id>/delete/')
+@app.route('/restaurants/<int:restaurant_id>/delete/')
 def deleteRestaurant(restaurant_id):
     return "This page confirms the deletion of a restaurant."
 
