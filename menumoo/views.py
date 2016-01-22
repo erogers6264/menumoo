@@ -1,5 +1,6 @@
-from flask import render_template, request, redirect, url_for, flash, jsonify
+from flask import render_template, request
 from menumoo import app
+
 
 #Fake Restaurants
 restaurant = {'name': 'The CRUDdy Crab', 'id': '1'}
@@ -27,7 +28,7 @@ def newRestaurant():
     return "This page shows a form for creating a new restaurant."
 
 
-#  This function returns a page for editing a restaurant's information
+# This function returns a page for editing a restaurant's information
 @app.route('/restaurants/<int:restaurant_id>/edit/')
 def editRestaurant(restaurant_id):
     return "This page edits a restaurant's information."
@@ -44,6 +45,7 @@ def deleteRestaurant(restaurant_id):
 @app.route('/restaurants/<int:restaurant_id>/menu/')
 def restaurantMenu(restaurant_id):
     return "This page shows the menu of a restaurant"
+
 
 #  Route for newMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/new/')
