@@ -25,7 +25,7 @@ def allRestaurants():
 #  This function returns a page to create a new restaurant
 @app.route('/restaurants/new/')
 def newRestaurant():
-    return "This page shows a form for creating a new restaurant."
+    return render_template('newrestaurant.html',restaurant=restaurant)
 
 
 # This function returns a page for editing a restaurant's information
@@ -51,7 +51,7 @@ def restaurantMenu(restaurant_id):
 @app.route('/restaurants/<int:restaurant_id>/new/')
 @app.route('/restaurants/<int:restaurant_id>/menu/new/')
 def newMenuItem(restaurant_id):
-    pass
+    return render_template('newmenuitem.html', restaurant=restaurant)
 
 
 #  Route for editMenuItem function
