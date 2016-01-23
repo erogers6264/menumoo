@@ -31,7 +31,7 @@ def newRestaurant():
 # This function returns a page for editing a restaurant's information
 @app.route('/restaurants/<int:restaurant_id>/edit/')
 def editRestaurant(restaurant_id):
-    return "This page edits a restaurant's information."
+    return render_template('editrestaurant.html', restaurant=restaurant)
 
 
 #  This function returns a page confirming deletion of a restaurant
