@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Delete {{restaurant.name}}</title>
 </head>
 <body>
-
+	<form>
+	<fieldset>
+	<legend>Delete {{restaurant.name}}</legend>
+		<p>Are you sure you would like to permanently delete {{restaurant.name}}?</p>
+		<input type="submit" value="Yes">
+		<a href="#">Cancel</a>
+	</fieldset>
+	</form>
 </body>
 </html>
