@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>New Restaurant</title>
+	<title>New Item</title>
 </head>
 <body>
 	<header>
-		<h1>{{ restaurant['name'] }}</h1>
+		<h1>{{ restaurant.name }}</h1>
 	</header>
-
+	<label>Add a new item to the {{ restaurant.name }} menu:</label>
+	<form action="#" method="POST">
+			<label>Name</label>
+			<input type="text" name="name" placeholder="{{ item.name }}">
+			<br>
+			<label>Course</label>
+			<input type="text" name="course" placeholder="{{ item.course }}">
+			<br>
+			<label>Description</label>
+			<input type="text" name="description" placeholder="{{ item.description }}">
+			<br>
+			<label>Price</label>
+			<input type="text" name="price" placeholder="{{ item.price }}">
+			<br>
+			<input type="submit" value="Submit New Item">
+			<a href="#">Cancel</a>
+	</form>
 </body>
 </html>
