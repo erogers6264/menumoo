@@ -37,29 +37,29 @@ def editRestaurant(restaurant_id):
 #  This function returns a page confirming deletion of a restaurant
 @app.route('/restaurants/<int:restaurant_id>/delete/')
 def deleteRestaurant(restaurant_id):
-    return "This page confirms the deletion of a restaurant."
-
+	return render_template('', restaurant=restaurant)
 
 #  This function queries the database for the items of the restaurant
 @app.route('/restaurants/<int:restaurant_id>/')
 @app.route('/restaurants/<int:restaurant_id>/menu/')
 def restaurantMenu(restaurant_id):
-    return "This page shows the menu of a restaurant"
-
+	return render_template('', restaurant=restaurant)
 
 #  Route for newMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/new/')
 @app.route('/restaurants/<int:restaurant_id>/menu/new/')
 def newMenuItem(restaurant_id):
-    return render_template('newmenuitem.html', restaurant=restaurant)
+    return render_template('newmenuitem.html', restaurant=restaurant,
+    					   item=item)
 
 
 #  Route for editMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/edit/')
 def editMenuItem(restaurant_id, MenuID):
-    pass
-
+	return render_template('', restaurant=restaurant,
+						   item=item)
 #  Route for deleteMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/delete/')
 def deleteMenuItem(restaurant_id, MenuID):
-    pass
+	return render_template('', restaurant=restaurant,
+						   item=item)
