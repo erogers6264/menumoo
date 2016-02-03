@@ -41,7 +41,7 @@ def editRestaurant(restaurant_id):
         return render_template('editrestaurant.html', restaurant=restaurant)
 
 
-@app.route('/restaurants/<int:restaurant_id>/delete/')
+@app.route('/restaurants/<int:restaurant_id>/delete/', methods=['GET', 'POST'])
 def deleteRestaurant(restaurant_id):
     return render_template('deleterestaurant.html', restaurant=restaurant)
 
