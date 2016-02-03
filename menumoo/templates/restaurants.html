@@ -6,14 +6,14 @@
 <body>
 	<header>
 		<h1>MenuMoo</h1>
-		<a href={{ url_for('newRestaurant') }}>add new restaurant</a>
+		<a href="{{ url_for('newRestaurant') }}">Add new restaurant</a>
 	</header>
 	{% for restaurant in restaurants %}
 	<div class="restaurant">
 		<h2>{{ restaurant.name }}</h2>
 		<ul>
-			<li><a href="#">Edit</a></li>
-			<li><a href="#">Delete</a></li>
+			<li><a href="{{ url_for('editRestaurant', restaurant_id=restaurant.restaurant_id) }}">Edit</a></li>
+			<li><a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.restaurant_id) }}">Delete</a></li>
 		</ul>
 	</div>
 	<br>
