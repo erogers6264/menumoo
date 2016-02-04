@@ -55,6 +55,8 @@ def deleteRestaurant(restaurant_id):
 @app.route('/restaurants/<int:restaurant_id>/')
 @app.route('/restaurants/<int:restaurant_id>/menu/')
 def restaurantMenu(restaurant_id):
+    restaurant = db.session.query(Restaurant).filter_by(restaurant_id=restaurant_id).one()
+    items = db.session.query(MenuItem).filter_by(restaurant_id=restaurant_id).all()
     return render_template('menu.html', restaurant=restaurant, items=items)
 
 
@@ -66,8 +68,7 @@ def newMenuItem(restaurant_id):
     if request.method == 'POST':
         pass
     else:
-        return render_template('newmenuitem.html', restaurant=restaurant,
-                           item=item)
+        return render_template('newmenuitem.html', restaurant=restaurant)
 
 
 #  Route for editMenuItem function
