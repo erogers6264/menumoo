@@ -43,7 +43,13 @@ def editRestaurant(restaurant_id):
 
 @app.route('/restaurants/<int:restaurant_id>/delete/', methods=['GET', 'POST'])
 def deleteRestaurant(restaurant_id):
-    return render_template('deleterestaurant.html', restaurant=restaurant)
+    restaurant = db.session.query(Restaurant).filter_by(restaurant_id=restaurant_id).one()
+    if request.method == 'POST':
+        db.session.delete(restaurant)
+        db.session.commit()
+        return redirect(url_for("allRestaurants"))
+    else:
+        return render_template('deleterestaurant.html', restaurant=restaurant)
 
 #  This function queries the database for the items of the restaurant
 @app.route('/restaurants/<int:restaurant_id>/')
@@ -51,11 +57,16 @@ def deleteRestaurant(restaurant_id):
 def restaurantMenu(restaurant_id):
     return render_template('menu.html', restaurant=restaurant, items=items)
 
+
 #  Route for newMenuItem function
-@app.route('/restaurants/<int:restaurant_id>/new/')
-@app.route('/restaurants/<int:restaurant_id>/menu/new/')
+@app.route('/restaurants/<int:restaurant_id>/new/', methods=['GET', 'POST'])
+@app.route('/restaurants/<int:restaurant_id>/menu/new/', methods=['GET', 'POST'])
 def newMenuItem(restaurant_id):
-    return render_template('newmenuitem.html', restaurant=restaurant,
+    restaurant = db.session.query(Restaurant).filter_by(restaurant_id=restaurant_id).one()
+    if request.method == 'POST':
+        pass
+    else:
+        return render_template('newmenuitem.html', restaurant=restaurant,
                            item=item)
 
 
