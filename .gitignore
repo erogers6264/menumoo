@@ -1,7 +1,0 @@
-*.directory
-*.db
-*.pyc
-.gitignore
-instance/
-.vagrant/
-*.sublime*
