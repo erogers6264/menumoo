@@ -4,7 +4,7 @@
 	<title>Edit {{ item.name }}</title>
 </head>
 <body>
-	<header><h1>Edit {{ restaurant.name }}</h1></header>
+	<header><h1>Edit {{ item.name }}</h1></header>
 
 	<form action="#" method="POST">
 			<label>Name</label>
@@ -20,7 +20,7 @@
 			<input type="text" name="price" placeholder="{{ item.price }}">
 			<br>
 			<input type="submit" value="Submit Edits">
-			<a href="#">Cancel</a>
+			<a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">Cancel</a>
 	</form>
 
 </body>
