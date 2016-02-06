@@ -9,7 +9,7 @@ Google+ and Facebook sign-in.
 
 # Usage
 If you use vagrant, the pg_config.sh will provision the development environment
-for you. See the file for requirements needed to run on a local rather than
+for you. See the file for requirements needed to run on a local rather than a
 virtual machine.
 
 Running `python runserver.py` from within a vagrant virtual environment
