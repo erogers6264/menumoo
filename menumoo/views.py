@@ -67,7 +67,15 @@ def restaurantMenu(restaurant_id):
 def newMenuItem(restaurant_id):
     restaurant = db.session.query(Restaurant).filter_by(restaurant_id=restaurant_id).one()
     if request.method == 'POST':
-        pass
+        item = MenuItem(name=request.form['name'],
+                        description=request.form['description'],
+                        course=request.form['course'],
+                        price=request.form['price'],
+                        restaurant_id=restaurant_id
+                        )
+        db.session.add(item)
+        db.session.commit()
+        return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
         return render_template('newmenuitem.html', restaurant=restaurant)
 
@@ -78,7 +86,7 @@ def editMenuItem(restaurant_id, MenuID):
     return render_template('editmenuitem.html', restaurant=restaurant,
                            item=item)
 
-    
+
 #  Route for deleteMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/delete/')
 def deleteMenuItem(restaurant_id, MenuID):
