@@ -12,5 +12,5 @@ If you use vagrant, the pg_config.sh will provision the development environment
 for you. See the file for requirements needed to run on a local rather than
 virtual machine.
 
-Running `python run_server.py` from within a vagrant virtual environment
+Running `python runserver.py` from within a vagrant virtual environment
 will allow you to interface with the application via localhost in your browser.
