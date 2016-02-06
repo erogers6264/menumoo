@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Delete {{restaurant.name}}</title>
+</head>
+<body>
+	<h1>MenuMoo</h1>
+	<form action="{{ url_for('deleteRestaurant', restaurant_id=restaurant.restaurant_id) }}" method="POST">
+	<fieldset>
+	<legend>Delete {{restaurant.name}}</legend>
+		<p>Are you sure you would like to permanently delete {{restaurant.name}}?</p>
+		<input type="submit" value="Yes">
+		<a href="{{ url_for('allRestaurants') }}">Cancel</a>
+	</fieldset>
+	</form>
+</body>
+</html>

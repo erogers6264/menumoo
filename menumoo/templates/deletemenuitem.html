@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Delete {{ item.name }}</title>
+</head>
+<body>
+	<h1>{{ restaurant.name }}</h1>
+	<form action="#" method="POST">
+	<fieldset>
+	<legend>Delete {{item.name}}</legend>
+		<p>Are you sure you would like to permanently delete the {{item.name}}
+		from {{ restaurant.name }}?</p>
+		<input type="submit" value="Yes">
+		<a href="#">Cancel</a>
+	</fieldset>
+	</form>
+</body>
+</html>
