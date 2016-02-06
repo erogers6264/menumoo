@@ -51,6 +51,7 @@ def deleteRestaurant(restaurant_id):
     else:
         return render_template('deleterestaurant.html', restaurant=restaurant)
 
+
 #  This function queries the database for the items of the restaurant
 @app.route('/restaurants/<int:restaurant_id>/')
 @app.route('/restaurants/<int:restaurant_id>/menu/')
@@ -76,6 +77,8 @@ def newMenuItem(restaurant_id):
 def editMenuItem(restaurant_id, MenuID):
     return render_template('editmenuitem.html', restaurant=restaurant,
                            item=item)
+
+    
 #  Route for deleteMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/delete/')
 def deleteMenuItem(restaurant_id, MenuID):
