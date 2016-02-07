@@ -86,7 +86,6 @@ def newMenuItem(restaurant_id):
 def editMenuItem(restaurant_id, MenuID):
     restaurant = db.session.query(Restaurant).filter_by(restaurant_id=restaurant_id).one()
     item = db.session.query(MenuItem).filter_by(item_id=MenuID).one()
-    print(item)
     if request.method == 'POST':
         if request.form['name']:
             item.name = request.form['name']
