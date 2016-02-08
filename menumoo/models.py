@@ -8,6 +8,13 @@ class Restaurant(db.Model):
     name = db.Column(db.String(80), nullable = False)
     restaurant_id = db.Column(db.Integer, primary_key = True)
 
+    @property
+    def serialize(self):
+        return {
+            'name': self.name
+            'restaurant_id': self.restaurant_id
+        }
+    
 
 class MenuItem(db.Model):
     """A class containing information about menu items in the restaurants"""
@@ -22,3 +29,14 @@ class MenuItem(db.Model):
     restaurant_id = db.Column(db.Integer, db.ForeignKey(
                               'restaurant.restaurant_id'))
     restaurant = db.relationship(Restaurant)
+
+    @property
+    def serialize(self):
+        return {
+            'name': self.name
+            'item_id': self.item_id
+            'course': self.course
+            'description': self.description
+            'price': self.price
+            'restaurant_id': self.restaurant_id
+        }
