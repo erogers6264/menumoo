@@ -11,7 +11,7 @@ class Restaurant(db.Model):
     @property
     def serialize(self):
         return {
-            'name': self.name
+            'name': self.name,
             'restaurant_id': self.restaurant_id
         }
     
@@ -33,10 +33,10 @@ class MenuItem(db.Model):
     @property
     def serialize(self):
         return {
-            'name': self.name
-            'item_id': self.item_id
-            'course': self.course
-            'description': self.description
-            'price': self.price
+            'name': self.name,
+            'item_id': self.item_id,
+            'course': self.course,
+            'description': self.description,
+            'price': self.price,
             'restaurant_id': self.restaurant_id
         }

@@ -1,7 +1,19 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, jsonify
 from menumoo import app, db
 
 from .models import Restaurant, MenuItem
+
+#  JSON API endpoint for all restaurants
+@app.route('/JSON/')
+@app.route('/restaurants/JSON/')
+def allRestaurantsJSON():
+    restaurants = db.session.query(Restaurant).all()
+    return jsonify(Restaurants=[r.serialize for r in restaurants])
+
+#  JSON API endpoint for a restaurant with ID
+@app.route('/restaurants/<int:restaurant_id>/JSON/')
+def restaurantJSON():
+    pass
 
 
 #  This view shows all restaurants, allowing you to navigate to their
