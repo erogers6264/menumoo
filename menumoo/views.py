@@ -10,11 +10,26 @@ def allRestaurantsJSON():
     restaurants = db.session.query(Restaurant).all()
     return jsonify(Restaurants=[r.serialize for r in restaurants])
 
-#  JSON API endpoint for a restaurant with ID
-@app.route('/restaurants/<int:restaurant_id>/JSON/')
-def restaurantJSON():
-    pass
 
+#  JSON API endpoint for a particular restaurant
+@app.route('/restaurants/<int:restaurant_id>/JSON/')
+def restaurantJSON(restaurant_id):
+    restaurant = db.session.query(Restaurant).filter_by(restaurant_id=restaurant_id).one()
+    return jsonify(Restaurant=restaurant.serialize)
+
+
+#  JSON API endpoint for a restaurant's menu
+@app.route('/restaurants/<int:restaurant_id>/menu/JSON/')
+def menuJSON(restaurant_id):
+    items = db.session.query(MenuItem).filter_by(restaurant_id=restaurant_id).all()
+    return jsonify(MenuItems=[i.serialize for i in items])
+
+
+#  JSON API endpoint for a particular menu item
+@app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/JSON')
+def menuItemJSON(restaurant_id, MenuID):
+    item = db.session.query(MenuItem).filter_by(restaurant_id=restaurant_id, item_id=MenuID).one()
+    return jsonify(MenuItem=item.serialize)
 
 #  This view shows all restaurants, allowing you to navigate to their
 #  specific menus as well as edit or delete restaurants
@@ -59,7 +74,7 @@ def deleteRestaurant(restaurant_id):
     if request.method == 'POST':
         db.session.delete(restaurant)
         db.session.commit()
-        return redirect(url_for("allRestaurants"))
+        return redirect(url_for('allRestaurants'))
     else:
         return render_template('deleterestaurant.html', restaurant=restaurant)
 
@@ -83,8 +98,7 @@ def newMenuItem(restaurant_id):
                         description=request.form['description'],
                         course=request.form['course'],
                         price=request.form['price'],
-                        restaurant_id=restaurant_id
-                        )
+                        restaurant_id=restaurant_id)
         db.session.add(item)
         db.session.commit()
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
