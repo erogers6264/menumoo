@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>New Restaurant</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block title %}New Restaurant{% endblock %}
+{% block body %}
     <header>
         <h1>MenuMoo</h1>
     </header>
@@ -13,5 +10,4 @@
             <input type="submit" value="Create">
             <a href="{{ url_for('allRestaurants') }}">Cancel</a>
     </form>
-</body>
-</html>
+{% endblock %}
