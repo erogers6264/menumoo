@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Delete {{restaurant.name}}</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block title %}Delete {{restaurant.name}}{% endblock %}
+{% block body %}
 	<h1>MenuMoo</h1>
 	<form action="{{ url_for('deleteRestaurant', restaurant_id=restaurant.restaurant_id) }}" method="POST">
 	<fieldset>
@@ -13,5 +10,4 @@
 		<a href="{{ url_for('allRestaurants') }}">Cancel</a>
 	</fieldset>
 	</form>
-</body>
-</html>
+{% endblock %}

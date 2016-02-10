@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Edit {{ restaurant.name }}</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block title %}Edit {{ restaurant.name }}{% endblock %}
+{% block body %}
 	<header><h1>Edit {{ restaurant.name }}</h1></header>
 	<label>Name:</label>
 	<form action="{{url_for('editRestaurant', restaurant_id=restaurant.restaurant_id)}}" method="POST">
@@ -11,6 +8,4 @@
 		<input type="submit" value="Submit change">
 		<a href="{{ url_for('allRestaurants') }}">Cancel</a>
 	</form>
-
-</body>
-</html>
+{% endblock %}

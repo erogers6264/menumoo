@@ -31,6 +31,7 @@ def menuItemJSON(restaurant_id, MenuID):
     item = db.session.query(MenuItem).filter_by(restaurant_id=restaurant_id, item_id=MenuID).one()
     return jsonify(MenuItem=item.serialize)
 
+
 #  This view shows all restaurants, allowing you to navigate to their
 #  specific menus as well as edit or delete restaurants
 @app.route('/')

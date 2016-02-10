@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>{{ restaurant.name }} Menu</title>
-</head>
-<body>
+{% extends "layout.html" %}
+{% block title %}{{ restaurant.name }} Menu{% endblock %}
+{% block body %}
 	<header>
 		<h1>{{ restaurant.name }}</h1>
 		<a href="{{ url_for('newMenuItem', restaurant_id=restaurant.restaurant_id) }}">Add new menu item</a>
@@ -24,5 +21,4 @@
 	</div>
 	<br>
 	{% endfor %}
-</body>
-</html>
+{% endblock %}
