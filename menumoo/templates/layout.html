@@ -10,6 +10,8 @@
     <!-- Bootstrap -->
     <link href="{{url_for('static', filename='lib/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{url_for('static', filename='lib/bootstrap/css/bootstrap-themes.min.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/style.css')}}" rel="stylesheet">
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,7 +23,7 @@
   <body>
   <div class="container">
     <div class="row">
-      <div class="col-md-4 offset-4 jumbotron">  
+      <div class="col-md-6 col-md-offset-3 jumbotron">  
       {% with messages = get_flashed_messages() %}
         {% if messages %}
           <ul class="alert alert-success">
