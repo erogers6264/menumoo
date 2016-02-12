@@ -15,7 +15,6 @@ def allRestaurantsJSON():
 #  JSON API endpoint for a particular restaurant
 @app.route('/restaurants/<int:restaurant_id>/JSON/')
 def restaurantJSON(restaurant_id):
-
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
     return jsonify(Restaurant=restaurant.serialize)
@@ -129,6 +128,7 @@ def editMenuItem(restaurant_id, MenuID):
         restaurant_id=restaurant_id).one()
     item = db.session.query(MenuItem).filter_by(item_id=MenuID).one()
     if request.method == 'POST':
+        #  Test each form field for a value
         if request.form['name']:
             item.name = request.form['name']
         if request.form['course']:
