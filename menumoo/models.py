@@ -8,6 +8,8 @@ class Restaurant(db.Model):
     name = db.Column(db.String(80), nullable = False)
     restaurant_id = db.Column(db.Integer, primary_key = True)
 
+    #  This function as a property returns the data in an easily 
+    #  serializeable format
     @property
     def serialize(self):
         return {
