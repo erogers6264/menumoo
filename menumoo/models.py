@@ -1,5 +1,6 @@
 from menumoo import db
 
+
 class Restaurant(db.Model):
     """A simple class for the restaurants in the database"""
     
