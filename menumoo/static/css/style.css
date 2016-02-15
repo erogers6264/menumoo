@@ -9,3 +9,7 @@ body {
 h1, h2 {
 	font-family: 'Titillium Web', sans-serif;
 }
+
+img {
+	max-width: 100%;
+}
