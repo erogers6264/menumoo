@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Delete {{ item.name }}{% endblock %}
-{% block body %}
+{% block content %}
 	<h1>{{ restaurant.name }}</h1>
 	<form action="{{ url_for('deleteMenuItem', restaurant_id=restaurant.restaurant_id, MenuID=item.item_id) }}" method="POST">
 	<fieldset>
