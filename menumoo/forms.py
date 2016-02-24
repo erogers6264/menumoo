@@ -1,11 +1,18 @@
 #  forms.py
 #  For learning the use of WTForms
 
-from flask.ext.wtf import Form
-from wtforms.fields import TextField, PasswordField
-from wtforms.validators import Required, Email
+from flask_wtf import Form
+from wtforms import StringField, RadioField, DecimalField
+from wtforms.validators import DataRequired
 
 
-class EmailPasswordForm(Form):
-	email = TextField('Email', validators=[Required(), Email()])
-	password = PasswordField('Password', validators=[Required()])
+class NameForm(Form):
+	"""docstring for NameForm"""
+	name = StringField('Name', validators=[DataRequired()])
+
+
+class MenuItemForm(Form):
+	"""docstring for NameForm"""
+	name = StringField('Name', validators=[DataRequired()])
+	course = RadioField('Course', choices=['Appetizer', 'Entree', 'Side', 'Dessert'])
+	price = DecimalField('Price', places=2)
