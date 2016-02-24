@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Edit {{ restaurant.name }}{% endblock %}
-{% block body %}
+{% block content %}
 	<header><h1>Edit {{ restaurant.name }}</h1></header>
 	<label>Name:</label>
 	<form action="{{url_for('editRestaurant', restaurant_id=restaurant.restaurant_id)}}" method="POST">

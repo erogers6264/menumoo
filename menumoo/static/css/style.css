@@ -1,15 +1,19 @@
-.jumbotron {
-	margin-top: 2em;
-}
-
 body {
-	font-family: 'Lora', serif;
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
 }
 
-h1, h2 {
-	font-family: 'Titillium Web', sans-serif;
+.content {
+	padding-top: 50px;
+	color: #FFAA00;
+	text-align: center;
+	align-content: center;
 }
 
-img {
-	max-width: 100%;
+.restaurant {
+	border: 1px solid #3A28D0;
+	max-width: 50%;
 }

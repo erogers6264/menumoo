@@ -1,10 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}MenuMoo{% endblock %}
-{% block body %}
-	<header>
-		<h1>MenuMoo</h1>
-		<a href="{{ url_for('newRestaurant') }}">Add new restaurant</a>
-	</header>
+{% block content %}
 	{% for restaurant in restaurants %}
 	<div class="restaurant">
 		<a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}"><h2>{{ restaurant.name }}</h2></a>
