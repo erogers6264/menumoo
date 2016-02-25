@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}{{ restaurant.name }} Menu{% endblock %}
-{% block body %}
+{% block content %}
 	<header>
 		<h1>{{ restaurant.name }}</h1>
 		<a href="{{ url_for('allRestaurants') }}">All restaurants</a>

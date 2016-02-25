@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>Your page title here :)</title>
+  <title>menu</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -26,36 +25,20 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <!-- <link rel="icon" type="image/png" href="images/favicon.png"> -->
 
-</head>
-<body>
-
-  <!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="container">
-    <div class="row">
-      <div class="twelve columns">
-        <img src="{{ url_for('static', filename='img/cowprint.jpg') }}">
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-3 jumbotron">  
-      {% with messages = get_flashed_messages() %}
-        {% if messages %}
-          <ul class="alert alert-success">
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-          </ul>
-        {% endif %}
-      {% endwith %}
-      {% block body %}
-        <h1>Hello, world!</h1>
-      {% endblock %}
-      </div>
-    </div>
-  </div>
+</head> 
+  <body class="col-md-12">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class=flashes>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}  
+  {% block content %}
+    <h1>Hello, world!</h1>
+  {% endblock %}
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
