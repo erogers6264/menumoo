@@ -1,18 +1,22 @@
 {% extends "layout.html" %}
-{% block title %}MenuMoo{% endblock %}
-{% block content %}
-	<header>
-		<h1>MenuMoo</h1>
-		<a href="{{ url_for('newRestaurant') }}">Add new restaurant</a>
-	</header>
-	{% for restaurant in restaurants %}
-	<div class="restaurant">
-		<a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}"><h2>{{ restaurant.name }}</h2></a>
-		<ul>
-			<li><a href="{{ url_for('editRestaurant', restaurant_id=restaurant.restaurant_id) }}">Edit</a></li>
-			<li><a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.restaurant_id) }}">Delete</a></li>
-		</ul>
-	</div>
-	<br>
-	{% endfor %}
+{% block list %}
+<section class="restaurant-list">
+  <div class="container">
+    <div class="six columns offset-by-three">
+      <h2>Restaurants</h2>
+
+    {% for restaurant in restaurants %}
+      <div class="box">
+        <h4><a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">{{ restaurant.name }}</a></h4>
+        <p>Mexican fare with spicy flair.</p>
+        <div class="crud">            
+          <a href="{{ url_for('editRestaurant', restaurant_id=restaurant.restaurant_id) }}">Edit</a>
+          <a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.restaurant_id) }}">Delete</a>
+        </div>          
+	    </div>
+	  {% endfor %}
+
+    </div>
+  </div>      
+</section>
 {% endblock %}
