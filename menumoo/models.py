@@ -7,7 +7,9 @@ class Restaurant(db.Model):
     __tablename__ = 'restaurant'
 
     name = db.Column(db.String(80), nullable = False)
+    description = db.Column(db.String(250))
     restaurant_id = db.Column(db.Integer, primary_key = True)
+
 
     #  This function as a property returns the data in an easily 
     #  serializeable format
@@ -15,6 +17,7 @@ class Restaurant(db.Model):
     def serialize(self):
         return {
             'name': self.name,
+            'description': self.description,
             'restaurant_id': self.restaurant_id
         }
     
