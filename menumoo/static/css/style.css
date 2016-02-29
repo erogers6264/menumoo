@@ -13,7 +13,7 @@ p {
 
 a {
 	text-decoration: none;
-	color: #DB1E5C;	
+	color: #F0335C;	
 }
 
 a:hover {
@@ -54,7 +54,7 @@ blockquote {
 	margin-bottom: 3%;
 	border-radius: 5px;
 	text-align: center;
-	background-color: #FAFAFA;
+	background-color: #F7F7F7;
 	padding: 3%;
 }
 
