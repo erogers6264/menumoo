@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>menu</title>
+  <title>Jortl</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -15,33 +16,122 @@
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-
+  <link href='https://fonts.googleapis.com/css?family=Amatic+SC:700,400' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Crimson+Text' rel='stylesheet' type='text/css'>
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link rel="stylesheet" href="{{url_for('static', filename='lib/Skeleton-2.0.4/css/normalize.css')}}">
   <link rel="stylesheet" href="{{url_for('static', filename='lib/Skeleton-2.0.4/css/skeleton.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='lib/Skeleton-2.0.4/css/style.css')}}">
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <!-- <link rel="icon" type="image/png" href="images/favicon.png"> -->
 
-</head> 
-  <body class="col-md-12">
-  {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class=flashes>
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}  
-  {% block content %}
-    <h1>Hello, world!</h1>
-  {% endblock %}
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-  </body>
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+  <!-- Header
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <header>
+    <div class="container">
+      <div class="six columns offset-by-three">
+        <h1 class="fancy">MenuMoo</h1>
+      </div>
+      <div class="six columns offset-by-three">
+        <nav>
+          <ul>
+            <li><a href="#">All Restaurants</a></li>
+            <li><a href="#">New Restaurant</a></li>
+          </ul>
+        </nav>
+      </div>
+
+    </div> <!-- Container -->
+
+    <div class="container spiel">
+      <div class="six columns offset-by-three">
+        <h2>An easier way to keep track of your favorite restaurants</h2>
+        <p>This Flask application is powered by SQLAlchemy and numerous Flask
+        extensions, such as flask-wtforms.</p>
+        <div class="row">
+          <div class="eight columns alpha">
+            <input type="text" placeholder="Enter a new restaurant">
+          </div>
+          <div class="four columns omega">
+            <button type="submit" class="button-primary">Create</button>
+          </div>
+        </div>
+      </div>
+    </div> <!-- Container -->
+  </header>
+
+  <main>
+    <!-- List
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <section class="restaurant-list">
+      <div class="container">
+        <div class="six columns offset-by-three">
+          <h2>Restaurants</h2>
+          <div class="box">
+            <h4><a href="#">Anchos</a></h4>
+            <p>Mexican fare with spicy flair.</p>
+            <div class="crud">            
+              <a href="#">Edit</a>
+              <a href="#">Delete</a>
+            </div>          
+            </div>
+          <div class="box">
+            <h4><a href="#">Hi Time</a></h4>
+            <p>Fresh salads and crunchy greens for an anytime health kick.</p>
+            <div class="crud">            
+              <a href="#">Edit</a>
+              <a href="#">Delete</a>
+            </div>          
+            </div>
+          <div class="box">
+            <h4><a href="#">Chewy's</a></h4>
+            <p>Plastic sandwiches with your choice of various condiments.</p>
+            <div class="crud">            
+              <a href="#">Edit</a>
+              <a href="#">Delete</a>
+            </div>          
+            </div>
+        </div>
+      </div>      
+    </section>
+
+    <!-- Quotes
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <section class="quotes">
+      <div class="container">
+        <div class="six columns offset-by-three">
+              <blockquote>Eat good food.</blockquote>
+              <blockquote>Know the restaurants.</blockquote>
+              <blockquote>Inspect menu items.</blockquote>
+        </div>
+      </div>
+    </section>
+  </main>
+
+    <!-- Footer
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <footer>
+    <div class="container">
+      <div class="six columns offset-by-three">
+        <nav>
+          <li><a href="#">All Restaurants</a></li>
+          <li><a href="#">New Restaurant</a></li>
+        </nav>
+        <p>Created 2016. Ethan Rogers</p>
+      </div>
+    </div>
+  </footer>
+
+    <!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
 </html>
