@@ -1,15 +1,121 @@
-.jumbotron {
-	margin-top: 2em;
-}
-
 body {
-	font-family: 'Lora', serif;
+	font-family: 'Crimson Text', serif;
+	text-align: center;
 }
 
-h1, h2 {
-	font-family: 'Titillium Web', sans-serif;
+p {
+	text-align: left;
 }
 
-img {
-	max-width: 100%;
+.fancy, h2, h3, h4 {
+	font-family: 'Amatic SC', cursive;
 }
+
+a {
+	text-decoration: none;
+	color: #DB1E5C;	
+}
+
+a:hover {
+	color: #DB1E5C;
+}
+
+nav {
+	display: ;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	display: inline;
+	margin-right: 5%;
+}
+
+blockquote {
+	margin-bottom: 0;
+}
+
+.fancy {
+	font-weight: bold;
+	font-size: 7em;
+}
+
+.spiel {
+	margin-bottom: 2%;
+	margin-top: 5%;
+}
+
+.box {
+	/*border: 1px solid lightgrey;*/
+	margin-bottom: 3%;
+	border-radius: 5px;
+	text-align: center;
+	background-color: #FAFAFA;
+	padding: 3%;
+}
+
+.box h4 {
+	margin-bottom: -1%;
+	margin-top: 4%;
+}
+
+.crud {
+	text-align: right;
+	margin-top: -6%;
+}
+
+.crud a {
+	display: inline;
+	margin-right: 5%;
+}
+
+.quotes {
+	text-align: center;
+	margin-bottom: 3%;
+}
+
+footer p {
+	text-align: center;
+}
+
+/* Buttons
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.button.button-primary,
+button.button-primary,
+input[type="submit"].button-primary,
+input[type="reset"].button-primary,
+input[type="button"].button-primary {
+  background-color: #F0335C;
+  border-color: #F0335C; }
+.button.button-primary:hover,
+button.button-primary:hover,
+input[type="submit"].button-primary:hover,
+input[type="reset"].button-primary:hover,
+input[type="button"].button-primary:hover,
+.button.button-primary:focus,
+button.button-primary:focus,
+input[type="submit"].button-primary:focus,
+input[type="reset"].button-primary:focus,
+input[type="button"].button-primary:focus {
+  background-color: #DB1E5C;
+  border-color: #DB1E5C; }
+
+
+/* Forms
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+  border: 1px solid #DB1E5C;

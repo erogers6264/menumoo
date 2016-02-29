@@ -2,6 +2,7 @@ from flask import render_template, request, redirect, url_for, jsonify, flash
 from menumoo import app, db
 
 from .models import Restaurant, MenuItem
+from .forms import NameForm, MenuItemForm
 
 
 #  JSON API endpoint for all restaurants
@@ -45,18 +46,18 @@ def allRestaurants():
     return render_template('restaurants.html', restaurants=restaurants)
 
 
-#  This function returns a page to create a new restaurant
+#  This function returns a form to create a new restaurant
 @app.route('/restaurants/new/', methods=['GET', 'POST'])
 def newRestaurant():
-    if request.method == 'POST':
-        name = request.form['name']
+    form = NameForm()
+    if form.validate_on_submit():
+        name = form.data['name']
         restaurant = Restaurant(name=name)
         db.session.add(restaurant)
         db.session.commit()
         flash("New restaurant has been created!")
         return redirect(url_for('allRestaurants'))
-    else:
-        return render_template('newrestaurant.html')
+    return render_template('newrestaurant.html', form=form)
 
 
 #  This function returns a page for editing a restaurant's information

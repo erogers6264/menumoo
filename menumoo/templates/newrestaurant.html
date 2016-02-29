@@ -6,8 +6,9 @@
     </header>
     <label>Add a new restaurant</label>
     <form action="{{ url_for("newRestaurant") }}" method="POST">
-            <input type="text" name="name" placeholder="Name">
-            <input type="submit" value="Create" class="btn btn-primary">
-            <a href="{{ url_for('allRestaurants') }}">Cancel</a>
+        {{ form.hidden_tag() }}
+        {{ form.name.label }} {{ form.name(size=20) }}
+        <input type="submit" value="Create">
+        <a href="{{ url_for('allRestaurants') }}">Cancel</a>
     </form>
 {% endblock %}
