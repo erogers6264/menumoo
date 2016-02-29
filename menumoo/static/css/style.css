@@ -1,0 +1,15 @@
+.jumbotron {
+	margin-top: 2em;
+}
+
+body {
+	font-family: 'Lora', serif;
+}
+
+h1, h2 {
+	font-family: 'Titillium Web', sans-serif;
+}
+
+img {
+	max-width: 100%;
+}
