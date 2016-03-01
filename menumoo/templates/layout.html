@@ -44,43 +44,31 @@
       <div class="six columns offset-by-three">
         <nav>
           <ul>
-            <li><a href="#">All Restaurants</a></li>
-            <li><a href="#">New Restaurant</a></li>
+            <li><a href="{{ url_for('allRestaurants') }}">All Restaurants</a></li>
+            <li><a href="{{ url_for('newRestaurant') }}">New Restaurant</a></li>
           </ul>
         </nav>
       </div>
     </div> <!-- Container -->
-
-    <div class="container spiel">
-      <div class="six columns offset-by-three">
-        <h2>An easier way to keep track of your favorite restaurants</h2>
-        <p>This Flask application is powered by SQLAlchemy and numerous Flask
-        extensions, such as flask-wtforms.</p>
-        <div class="row">
-          <div class="eight columns alpha">
-            <input type="text" placeholder="Enter a new restaurant">
-          </div>
-          <div class="four columns omega">
-            <button type="submit" class="button-primary">Create</button>
-          </div>
-        </div>
-      </div>
-    </div> <!-- Container -->
   </header>
+    {% block spiel %}
+
+    {% endblock %}
 
   <main>
 
-      <!-- Form
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  {% block form %}
-
-  {% endblock %}
-
     <!-- List
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  {% block list %}
+  <section class="list">
+  <div class="container">
+    <div class="six columns offset-by-three">
+      <h2>{% block heading %}{% endblock %}</h2>
+      {% block content %}
 
-  {% endblock %}
+      {% endblock %} 
+    </div>
+  </div>      
+</section>
 
     <!-- Quotes
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -101,8 +89,8 @@
     <div class="container">
       <div class="six columns offset-by-three">
         <nav>
-          <li><a href="#">All Restaurants</a></li>
-          <li><a href="#">New Restaurant</a></li>
+          <li><a href="{{ url_for('allRestaurants') }}">All Restaurants</a></li>
+          <li><a href="{{ url_for('newRestaurant') }}">New Restaurant</a></li>
         </nav>
         <p>Created 2016. Ethan Rogers</p>
       </div>
