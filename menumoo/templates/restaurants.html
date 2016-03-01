@@ -1,9 +1,25 @@
 {% extends "layout.html" %}
-{% block list %}
-<section class="list">
-  <div class="container">
-    <div class="six columns offset-by-three">
-      <h2>Restaurants</h2>
+
+{% block spiel %}
+<div class="container spiel">
+  <div class="six columns offset-by-three box">
+    <h2>An easier way to keep track of your favorite restaurants</h2>
+    <p>This Flask application is powered by SQLAlchemy and numerous Flask
+    extensions, such as flask-wtforms.</p>
+    <div class="row">
+      <div class="eight columns alpha">
+        <input type="text" placeholder="Enter a new restaurant">
+      </div>
+      <div class="four columns omega">
+        <button type="submit" class="button-primary">Create</button>
+      </div>
+    </div>
+  </div>
+</div> <!-- Container -->
+{% endblock %}
+
+{% block heading %}Restaurants{% endblock %}
+{% block content %}
 
     {% if restaurants %}
 
@@ -11,7 +27,7 @@
 
         <div class="box">
           <h4><a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">{{ restaurant.name }}</a></h4>
-          <p>Mexican fare with spicy flair.</p>
+          <p>{{ restaurant.description }}</p>
           <div class="crud">            
             <a href="{{ url_for('editRestaurant', restaurant_id=restaurant.restaurant_id) }}">Edit</a>
             <a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.restaurant_id) }}">Delete</a>
@@ -26,8 +42,4 @@
         <p>There are currently no restraurants in the database. Use the link above to add some!</p>
       </div>
     {% endif %}
-
-    </div>
-  </div>      
-</section>
 {% endblock %}
