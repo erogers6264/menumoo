@@ -9,7 +9,7 @@ from wtforms.validators import DataRequired
 class NameForm(Form):
 	"""docstring for NameForm"""
 	name = StringField('Name', validators=[DataRequired()])
-	description = StringField('Name', validators=[DataRequired()])
+	description = StringField('Description', validators=[DataRequired()])
 
 
 class MenuItemForm(Form):
