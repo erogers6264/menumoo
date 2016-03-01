@@ -3,6 +3,10 @@ body {
 	text-align: center;
 }
 
+header {
+	margin-bottom: 5%;
+}
+
 p {
 	text-align: left;
 }
@@ -20,10 +24,6 @@ a:hover {
 	color: #DB1E5C;
 }
 
-nav {
-	display: ;
-}
-
 ul {
 	list-style-type: none;
 	padding: 0;
@@ -33,6 +33,10 @@ ul {
 li {
 	display: inline;
 	margin-right: 5%;
+}
+
+form {
+
 }
 
 blockquote {
@@ -46,7 +50,6 @@ blockquote {
 
 .spiel {
 	margin-bottom: 2%;
-	margin-top: 5%;
 }
 
 .box {

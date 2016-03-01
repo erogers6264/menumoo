@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
-{% block title %}New Restaurant{% endblock %}
+{% block heading %} Add a new restaurant {% endblock %} 
 {% block content %}
-    <header>
-        <h1>MenuMoo</h1>
-    </header>
-    <label>Add a new restaurant</label>
+    <div class="box">
     <form action="{{ url_for("newRestaurant") }}" method="POST">
         {{ form.hidden_tag() }}
         {{ form.name.label }} {{ form.name(size=20) }}
-        <input type="submit" value="Create">
+        {{ form.description.label }} {{form.description(size=20)}}
+        <input type="submit" class="button-primary" value="Create">
         <a href="{{ url_for('allRestaurants') }}">Cancel</a>
     </form>
+    </div>
 {% endblock %}
