@@ -1,20 +1,31 @@
 {% extends "layout.html" %}
 {% block list %}
-<section class="restaurant-list">
+<section class="list">
   <div class="container">
     <div class="six columns offset-by-three">
       <h2>Restaurants</h2>
 
-    {% for restaurant in restaurants %}
+    {% if restaurants %}
+
+      {% for restaurant in restaurants %}
+
+        <div class="box">
+          <h4><a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">{{ restaurant.name }}</a></h4>
+          <p>Mexican fare with spicy flair.</p>
+          <div class="crud">            
+            <a href="{{ url_for('editRestaurant', restaurant_id=restaurant.restaurant_id) }}">Edit</a>
+            <a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.restaurant_id) }}">Delete</a>
+          </div>          
+  	    </div>
+
+  	  {% endfor %}
+
+    {% else %}
       <div class="box">
-        <h4><a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">{{ restaurant.name }}</a></h4>
-        <p>Mexican fare with spicy flair.</p>
-        <div class="crud">            
-          <a href="{{ url_for('editRestaurant', restaurant_id=restaurant.restaurant_id) }}">Edit</a>
-          <a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.restaurant_id) }}">Delete</a>
-        </div>          
-	    </div>
-	  {% endfor %}
+        <h4>No Restaurants</h4>
+        <p>There are currently no restraurants in the database. Use the link above to add some!</p>
+      </div>
+    {% endif %}
 
     </div>
   </div>      
