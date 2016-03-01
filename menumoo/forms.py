@@ -9,6 +9,7 @@ from wtforms.validators import DataRequired
 class NameForm(Form):
 	"""docstring for NameForm"""
 	name = StringField('Name', validators=[DataRequired()])
+	description = StringField('Name', validators=[DataRequired()])
 
 
 class MenuItemForm(Form):
@@ -16,3 +17,4 @@ class MenuItemForm(Form):
 	name = StringField('Name', validators=[DataRequired()])
 	course = RadioField('Course', choices=['Appetizer', 'Entree', 'Side', 'Dessert'])
 	price = DecimalField('Price', places=2)
+	description = StringField('Name', validators=[DataRequired()])
