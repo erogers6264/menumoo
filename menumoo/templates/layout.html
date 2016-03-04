@@ -44,8 +44,10 @@
       <div class="six columns offset-by-three">
         <nav>
           <ul>
+            {% block nav %}
             <li><a href="{{ url_for('allRestaurants') }}">All Restaurants</a></li>
             <li><a href="{{ url_for('newRestaurant') }}">New Restaurant</a></li>
+            {% endblock %}
           </ul>
         </nav>
       </div>

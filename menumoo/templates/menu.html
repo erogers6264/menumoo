@@ -1,24 +1,30 @@
 {% extends "layout.html" %}
-{% block title %}{{ restaurant.name }} Menu{% endblock %}
-{% block content %}
-	<header>
-		<h1>{{ restaurant.name }}</h1>
-		<a href="{{ url_for('allRestaurants') }}">All restaurants</a>
-		<a href="{{ url_for('newMenuItem', restaurant_id=restaurant.restaurant_id) }}">Add new menu item</a>
-	</header>
-	{% for item in items %}
-	<div class="item">
-		<h2>{{ item.name }}</h2>
-		<ul>
-			<li>{{ item.description }}</li>
-			<li>{{ item.course }}</li>
-			<li>{{ item.price }}</li>
-		</ul>
-		<ul>
-			<li><a href="{{ url_for('editMenuItem', restaurant_id=restaurant.restaurant_id, MenuID=item.item_id) }}">Edit</a></li>
-			<li><a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.restaurant_id, MenuID=item.item_id) }}">Delete</a></li>
-		</ul>
-	</div>
-	<br>
-	{% endfor %}
+{% block nav %}
+    <li><a href="{{ url_for('newMenuItem', restaurant_id=restaurant.restaurant_id) }}">New Item</a></li>
 {% endblock %}
+{% block heading %}{{ restaurant.name }} Menu{% endblock %}
+{% block content %}
+	{% if items %}
+		{% for item in items %}
+		<div class="box">
+			<h4>{{ item.name }}</h4>
+			<ul>
+				<li>{{ item.description }}</li>
+				<li>{{ item.course }}</li>
+				<li>{{ item.price }}</li>
+			</ul>
+			<ul>
+				<li><a href="{{ url_for('editMenuItem', restaurant_id=restaurant.restaurant_id, MenuID=item.item_id) }}">Edit</a></li>
+				<li><a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.restaurant_id, MenuID=item.item_id) }}">Delete</a></li>
+			</ul>
+		</div>
+		<br>
+		{% endfor %}
+    {% else %}
+      <div class="box">
+        <h4>No Items</h4>
+        <p>There are currently no items for {{ restaurant.name }}. Use the link above to add some!</p>
+      </div>
+    {% endif %}
+{% endblock %}
+
