@@ -40,16 +40,27 @@ def menuItemJSON(restaurant_id, MenuID):
 #  This view shows all restaurants, allowing you to navigate to their
 #  specific menus as well as edit or delete restaurants
 @app.route('/')
-@app.route('/restaurants/')
+@app.route('/restaurants/', methods=['GET', 'POST'])
 def allRestaurants():
     restaurants = db.session.query(Restaurant).all()
-    return render_template('restaurants.html', restaurants=restaurants)
+    form = NameForm()
+
+    if form.validate_on_submit():
+        name = form.data['name']
+        description = form.data['description']
+        restaurant = Restaurant(name=name, description=description)
+        db.session.add(restaurant)
+        db.session.commit()
+        flash("New restaurant has been created!")
+        return redirect(url_for('allRestaurants'))
+    return render_template('restaurants.html', restaurants=restaurants, form=form)
 
 
 #  This function returns a form to create a new restaurant
 @app.route('/restaurants/new/', methods=['GET', 'POST'])
 def newRestaurant():
     form = NameForm()
+    
     if form.validate_on_submit():
         name = form.data['name']
         description = form.data['description']
