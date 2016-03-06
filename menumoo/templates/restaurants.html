@@ -6,14 +6,14 @@
     <h2>An easier way to keep track of your favorite restaurants</h2>
     <p>This Flask application is powered by SQLAlchemy and numerous Flask
     extensions, such as flask-wtforms.</p>
-    <div class="row">
-      <div class="eight columns alpha">
-        <input type="text" placeholder="Enter a new restaurant">
-      </div>
-      <div class="four columns omega">
-        <button type="submit" class="button-primary">Create</button>
-      </div>
-    </div>
+
+    <form action="{{ url_for('newRestaurant') }}" method="POST">
+          {{ form.hidden_tag() }}
+          {{ form.name(size=20, placeholder=form.name.label.text) }}
+          {{ form.description(size=25, placeholder=form.description.label.text) }}
+          <input type="submit" class="button-primary" value="Create">
+    </form>
+
   </div>
 </div> <!-- Container -->
 {% endblock %}

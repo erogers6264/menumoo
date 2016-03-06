@@ -3,9 +3,9 @@
 {% block content %}
     <div class="box">
     <form action="{{ url_for("newRestaurant") }}" method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.name.label }} {{ form.name(size=20) }}
-        {{ form.description.label }} {{form.description(size=20)}}
+          {{ form.hidden_tag() }}
+          {{ form.name(size=20, placeholder=form.name.label.text) }}
+          {{ form.description(size=25, placeholder=form.description.label.text) }}
         <input type="submit" class="button-primary" value="Create">
         <a href="{{ url_for('allRestaurants') }}">Cancel</a>
     </form>
