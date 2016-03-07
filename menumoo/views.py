@@ -119,18 +119,20 @@ def restaurantMenu(restaurant_id):
 def newMenuItem(restaurant_id):
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
-    if request.method == 'POST':
-        item = MenuItem(name=request.form['name'],
-                        description=request.form['description'],
-                        course=request.form['course'],
-                        price=request.form['price'],
+    form = MenuItemForm()
+
+    if form.validate_on_submit():
+        item = MenuItem(name=form.data['name'],
+                        description=form.data['description'],
+                        course=form.data['course'],
+                        price=form.data['price'],
                         restaurant_id=restaurant_id)
         db.session.add(item)
         db.session.commit()
         flash("New menu item has been created!")
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
-        return render_template('newmenuitem.html', restaurant=restaurant)
+        return render_template('newmenuitem.html', restaurant=restaurant, form=form)
 
 
 #  Route for editMenuItem function
