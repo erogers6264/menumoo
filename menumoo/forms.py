@@ -8,13 +8,16 @@ from wtforms.validators import DataRequired
 
 class NameForm(Form):
 	"""docstring for NameForm"""
-	name = StringField('Name', validators=[DataRequired()])
+	name = StringField('Restaurant Name', validators=[DataRequired()])
 	description = StringField('Description', validators=[DataRequired()])
 
 
 class MenuItemForm(Form):
 	"""docstring for NameForm"""
-	name = StringField('Name', validators=[DataRequired()])
-	course = RadioField('Course', choices=['Appetizer', 'Entree', 'Side', 'Dessert'])
+	name = StringField('Item Name', validators=[DataRequired()])
+	course = RadioField('Course', choices=[('app', 'Appetizer'),
+										   ('ent', 'Entree'),
+										   ('sd', 'Side'), 
+									   	   ('dsrt', 'Dessert')])
 	price = DecimalField('Price', places=2)
 	description = StringField('Name', validators=[DataRequired()])
