@@ -15,9 +15,10 @@ class NameForm(Form):
 class MenuItemForm(Form):
 	"""docstring for NameForm"""
 	name = StringField('Item Name', validators=[DataRequired()])
-	course = RadioField('Course', choices=[('app', 'Appetizer'),
-										   ('ent', 'Entree'),
-										   ('sd', 'Side'), 
-									   	   ('dsrt', 'Dessert')])
-	price = DecimalField('Price', places=2)
-	description = StringField('Name', validators=[DataRequired()])
+	course = RadioField('Course', choices=[('Appetizer', 'Appetizer'),
+										   ('Entree', 'Entree'),
+										   ('Side', 'Side'), 
+									   	   ('Dessert', 'Dessert')],
+								  validators=[DataRequired()])
+	price = StringField('Price', validators=[DataRequired()])
+	description = StringField('Description', validators=[DataRequired()])
