@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
-{% block title %}New Item{% endblock %}
+{% block nav %}
+	<li><a href="{{ url_for('allRestaurants') }}">All Restaurants</a></li>
+    <li><a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">{{ restaurant.name }}</a></li>
+{% endblock %}
+{% block heading %}New Item{% endblock %}
 {% block content %}
 	<div class="container">
 	<div class="row">
