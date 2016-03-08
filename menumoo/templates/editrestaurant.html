@@ -3,8 +3,9 @@
 {% block content %}
 <div class="box">
 	<form action="{{url_for('editRestaurant', restaurant_id=restaurant.restaurant_id)}}" method="POST">
-		<input type="text" name="name" placeholder="{{ restaurant.name }}">
-		<input type="submit" class="button-primary" value="Submit change">
+		{{ form.name(size=20) }}
+		{{ form.description(size=25) }}
+		<input type="submit" class="button-primary" value="Submit edit">
 		<a href="{{ url_for('allRestaurants') }}">Cancel</a>
 	</form>
 </div>
