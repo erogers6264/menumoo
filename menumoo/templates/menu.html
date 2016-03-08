@@ -19,7 +19,6 @@
 				<li><a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.restaurant_id, MenuID=item.item_id) }}">Delete</a></li>
 			</ul>
 		</div>
-		<br>
 		{% endfor %}
     {% else %}
       <div class="box">
@@ -28,4 +27,3 @@
       </div>
     {% endif %}
 {% endblock %}
-
