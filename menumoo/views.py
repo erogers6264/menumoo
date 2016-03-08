@@ -5,38 +5,6 @@ from .models import Restaurant, MenuItem
 from .forms import NameForm, MenuItemForm
 
 
-#  JSON API endpoint for all restaurants
-@app.route('/JSON/')
-@app.route('/restaurants/JSON/')
-def allRestaurantsJSON():
-    restaurants = db.session.query(Restaurant).all()
-    return jsonify(Restaurants=[r.serialize for r in restaurants])
-
-
-#  JSON API endpoint for a particular restaurant
-@app.route('/restaurants/<int:restaurant_id>/JSON/')
-def restaurantJSON(restaurant_id):
-    restaurant = db.session.query(Restaurant).filter_by(
-        restaurant_id=restaurant_id).one()
-    return jsonify(Restaurant=restaurant.serialize)
-
-
-#  JSON API endpoint for a restaurant's menu
-@app.route('/restaurants/<int:restaurant_id>/menu/JSON/')
-def menuJSON(restaurant_id):
-    items = db.session.query(MenuItem).filter_by(
-        restaurant_id=restaurant_id).all()
-    return jsonify(MenuItems=[i.serialize for i in items])
-
-
-#  JSON API endpoint for a particular menu item
-@app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/JSON')
-def menuItemJSON(restaurant_id, MenuID):
-    item = db.session.query(MenuItem).filter_by(
-        restaurant_id=restaurant_id, item_id=MenuID).one()
-    return jsonify(MenuItem=item.serialize)
-
-
 #  This view shows all restaurants, allowing you to navigate to their
 #  specific menus as well as edit or delete restaurants
 @app.route('/')
@@ -178,3 +146,35 @@ def deleteMenuItem(restaurant_id, MenuID):
         return render_template('deletemenuitem.html',
                                restaurant=restaurant,
                                item=item)
+
+
+#  JSON API endpoint for all restaurants
+@app.route('/JSON/')
+@app.route('/restaurants/JSON/')
+def allRestaurantsJSON():
+    restaurants = db.session.query(Restaurant).all()
+    return jsonify(Restaurants=[r.serialize for r in restaurants])
+
+
+#  JSON API endpoint for a particular restaurant
+@app.route('/restaurants/<int:restaurant_id>/JSON/')
+def restaurantJSON(restaurant_id):
+    restaurant = db.session.query(Restaurant).filter_by(
+        restaurant_id=restaurant_id).one()
+    return jsonify(Restaurant=restaurant.serialize)
+
+
+#  JSON API endpoint for a restaurant's menu
+@app.route('/restaurants/<int:restaurant_id>/menu/JSON/')
+def menuJSON(restaurant_id):
+    items = db.session.query(MenuItem).filter_by(
+        restaurant_id=restaurant_id).all()
+    return jsonify(MenuItems=[i.serialize for i in items])
+
+
+#  JSON API endpoint for a particular menu item
+@app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/JSON')
+def menuItemJSON(restaurant_id, MenuID):
+    item = db.session.query(MenuItem).filter_by(
+        restaurant_id=restaurant_id, item_id=MenuID).one()
+    return jsonify(MenuItem=item.serialize)
