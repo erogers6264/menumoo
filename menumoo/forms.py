@@ -13,7 +13,7 @@ class NameForm(Form):
 
 
 class MenuItemForm(Form):
-	"""docstring for NameForm"""
+	"""docstring for MenuItemForm"""
 	name = StringField('Item Name', validators=[DataRequired()])
 	course = RadioField('Course', 
 						choices=[('Appetizer', 'Appetizer'),
