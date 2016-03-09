@@ -4,7 +4,7 @@ body {
 }
 
 header {
-	margin-bottom: 5%;
+	margin-bottom: 3%;
 }
 
 p {
@@ -50,6 +50,18 @@ blockquote {
 .fancy {
 	font-weight: bold;
 	font-size: 7em;
+}
+
+.flashes {
+	background-color: #AAF033;
+	border-radius: 5px;
+	margin-bottom: 3%;
+	border-radius: 5px;
+	text-align: center;
+}
+
+.flashes li {
+	margin: 0;
 }
 
 .spiel {
