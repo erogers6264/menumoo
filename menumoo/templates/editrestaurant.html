@@ -3,8 +3,15 @@
 {% block content %}
 <div class="box">
 	<form action="{{url_for('editRestaurant', restaurant_id=restaurant.restaurant_id)}}" method="POST">
+		{{ form.hidden_tag() }}
 		{{ form.name(size=20) }}
 		{{ form.description(size=25) }}
+		{% if form.name.errors %}
+        <ul class="errors">
+        {% for error in form.name.errors %}
+        	<li>{{ error }}</li>{% endfor %}
+        </ul>
+    	{% endif %}
 		<input type="submit" class="button-primary" value="Submit edit">
 		<a href="{{ url_for('allRestaurants') }}">Cancel</a>
 	</form>
