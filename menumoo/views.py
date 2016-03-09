@@ -45,24 +45,18 @@ def newRestaurant():
 def editRestaurant(restaurant_id):
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
-    form = NameForm(name=restaurant.name, description=restaurant.description)
-# Does not work yet
+    form = NameForm(obj=restaurant)
+
     if form.validate_on_submit():
         form.populate_obj(restaurant)
         db.session.add(restaurant)
         db.session.commit()
         flash("Restaurant edits have been saved!")
         return redirect(url_for('allRestaurants'))
-
-    # if request.method == 'POST':
-    #     if request.form['name']:
-    #         restaurant.name = request.form['name']
-    #         db.session.add(restaurant)
-    #         db.session.commit()
-    #         flash("Restaurant edits have been saved!")
-    #         return redirect(url_for('allRestaurants'))
     else:
-        return render_template('editrestaurant.html', restaurant=restaurant, form=form)
+        return render_template('editrestaurant.html',
+                               restaurant=restaurant,
+                               form=form)
 
 
 @app.route('/restaurants/<int:restaurant_id>/delete/', methods=['GET', 'POST'])
