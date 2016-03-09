@@ -21,14 +21,16 @@ def allRestaurants():
         db.session.commit()
         flash("New restaurant has been created!")
         return redirect(url_for('allRestaurants'))
-    return render_template('restaurants.html', restaurants=restaurants, form=form)
+    return render_template('restaurants.html',
+                           restaurants=restaurants,
+                           form=form)
 
 
 #  This function returns a form to create a new restaurant
 @app.route('/restaurants/new/', methods=['GET', 'POST'])
 def newRestaurant():
     form = NameForm()
-    
+
     if form.validate_on_submit():
         name = form.data['name']
         description = form.data['description']
@@ -103,7 +105,9 @@ def newMenuItem(restaurant_id):
         flash("New menu item has been created!")
         return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
     else:
-        return render_template('newmenuitem.html', restaurant=restaurant, form=form)
+        return render_template('newmenuitem.html',
+                               restaurant=restaurant,
+                               form=form)
 
 
 #  Route for editMenuItem function
