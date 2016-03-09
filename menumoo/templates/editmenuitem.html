@@ -1,22 +1,19 @@
 {% extends "layout.html" %}
-{% block title %}Edit {{ item.name }}{% endblock %}
+{% block nav %}
+	<li><a href="{{ url_for('allRestaurants') }}">All Restaurants</a></li>
+    <li><a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">{{ restaurant.name }}</a></li>
+{% endblock %}
+{% block heading %}Edit Item{% endblock %}
 {% block content %}
-	<header><h1>Edit {{ item.name }}</h1></header>
-
-	<form action="{{ url_for('editMenuItem', restaurant_id=restaurant.restaurant_id, MenuID=item.item_id) }}" method="POST">
-			<label>Name</label>
-			<input type="text" name="name" placeholder="{{ item.name }}">
-			<br>
-			<label>Course</label>
-			<input type="text" name="course" placeholder="{{ item.course }}">
-			<br>
-			<label>Description</label>
-			<input type="text" name="description" placeholder="{{ item.description }}">
-			<br>
-			<label>Price</label>
-			<input type="text" name="price" placeholder="{{ item.price }}">
-			<br>
-			<input type="submit" value="Submit Edits">
-			<a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">Cancel</a>
-	</form>
+	<div class="box">
+    <form action="{{ url_for('editMenuItem', restaurant_id=restaurant.restaurant_id, MenuID=item.item_id) }}" method="POST">
+		{{ form.hidden_tag() }}
+		{{ form.name(size=20, placeholder=form.name.label.text) }}
+		{{ form.description(size=25, placeholder=form.description.label.text) }}
+		{{ form.course() }}
+		{{ form.price(placeholder=form.price.label.text) }}
+        <input type="submit" class="button-primary" value="Submit Edits">
+        <a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">Cancel</a>
+    </form>
+    </div>
 {% endblock %}

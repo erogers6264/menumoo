@@ -113,16 +113,10 @@ def editMenuItem(restaurant_id, MenuID):
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
     item = db.session.query(MenuItem).filter_by(item_id=MenuID).one()
-    if request.method == 'POST':
-        #  Test each form field for a value
-        if request.form['name']:
-            item.name = request.form['name']
-        if request.form['course']:
-            item.course = request.form['course']
-        if request.form['description']:
-            item.description = request.form['description']
-        if request.form['price']:
-            item.price = request.form['price']
+    form = MenuItemForm(obj=item)
+
+    if request.method == 'POST' and form.validate():
+        form.populate_obj(item)
         db.session.add(item)
         db.session.commit()
         flash("Menu item has been edited!")
@@ -130,7 +124,8 @@ def editMenuItem(restaurant_id, MenuID):
     else:
         return render_template('editmenuitem.html',
                                restaurant=restaurant,
-                               item=item)
+                               item=item,
+                               form=form)
 
 
 #  Route for deleteMenuItem function
