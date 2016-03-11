@@ -87,12 +87,12 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
 
     #  Store the access token in the session for later use.
-    login_session['credentials'] = credentials.access_token    
+    login_session['credentials'] = credentials.access_token
     login_session['gplus_id'] = gplus_id
 
     #  Get user info
     userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
-    parameters = {'access_token': credentials.access_token, 'alt':'json'}
+    parameters = {'access_token': credentials.access_token, 'alt': 'json'}
     answer = requests.get(userinfo_url, params=parameters)
     data = json.loads(answer.text)
     print data
@@ -102,7 +102,7 @@ def gconnect():
 
     output = ''
     output += '<h1>Welcome, '
-    output +=  login_session['username']
+    output += login_session['username']
     output += '!</h1>'
 
     output += '<img src="'
@@ -111,6 +111,12 @@ def gconnect():
     output += '-webkit-border-radius: 150px; -moz-border-radius: 150px;">'
     flash("You are now logged in as %s" % login_session['username'])
     return output
+
+
+#  DISCONNECT - Revoke a current user's token and reset their login_session.
+@app.route("/gdisconnect")
+def gdisconnect():
+    pass
 
 
 #  This view shows all restaurants, allowing you to navigate to their
