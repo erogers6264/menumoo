@@ -35,7 +35,7 @@ def gconnect():
         return response
     code = request.data
     try:
-        # Upgrade the authorization code into a credentials object
+        #  Upgrade the authorization code into a credentials object
         oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
@@ -43,7 +43,11 @@ def gconnect():
         response = make_response(json.dumps('Failed to Upgrade th authorization code.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-
+    #  Check that the access token is valid.
+    access_token = credentials.access_token
+    url = ('https://www.googleapis.com/outh2/v1/tokeninfo?access_token=%s' % access_token)
+    h = httplib2.Http()
+    result = json.loads(h.request(url, 'GET')[1])
 
 
 
