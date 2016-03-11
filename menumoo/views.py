@@ -13,7 +13,9 @@ import random, string
 #  Store it in the session for later validation.
 @app.route('/login')
 def showLogin():
-
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
+    login_session['state'] = state
+    return "The current session state is %s" % login_session['state']
 
 
 #  This view shows all restaurants, allowing you to navigate to their
