@@ -6,6 +6,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///menumoo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+#  Security
+from flask import session as login_session
+import random, string
+
 import menumoo.views
 
 if __name__ == '__main__':
