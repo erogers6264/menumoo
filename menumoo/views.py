@@ -33,7 +33,9 @@ def gconnect():
         response = make_response(json.dumps('Invalid state parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
+    
     code = request.data
+
     try:
         #  Upgrade the authorization code into a credentials object
         oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
@@ -43,12 +45,23 @@ def gconnect():
         response = make_response(json.dumps('Failed to Upgrade th authorization code.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
+
     #  Check that the access token is valid.
     access_token = credentials.access_token
     url = ('https://www.googleapis.com/outh2/v1/tokeninfo?access_token=%s' % access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
 
+    if result.get('error') is not None:
+        response = make_response(json.dumps(result.get('error')), 500)
+        response.headers['Content-Type'] = 'application/json'
+
+    #  Verify that the access token is used for the intended user.
+    gplus_id = credentials.id_token['sub']
+    if result['user_id'] != gplus_id:
+        response = make_response(json.dumps("Token's user ID doesn't match given user ID."), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
 
 #  This view shows all restaurants, allowing you to navigate to their
