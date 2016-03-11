@@ -37,6 +37,14 @@ def gconnect():
     try:
         # Upgrade the authorization code into a credentials object
         oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+        oauth_flow.redirect_uri = 'postmessage'
+        credentials = oauth_flow.step2_exchange(code)
+    except FlowExchangeError:
+        response = make_response(json.dumps('Failed to Upgrade th authorization code.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+
 
 
 #  This view shows all restaurants, allowing you to navigate to their
