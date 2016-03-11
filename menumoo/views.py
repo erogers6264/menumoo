@@ -4,6 +4,17 @@ from menumoo import app, db
 from .models import Restaurant, MenuItem
 from .forms import NameForm, MenuItemForm
 
+#  Security
+from flask import session as login_session
+import random, string
+
+
+#  Create a state token to prevent request forgery.
+#  Store it in the session for later validation.
+@app.route('/login')
+def showLogin():
+
+
 
 #  This view shows all restaurants, allowing you to navigate to their
 #  specific menus as well as edit or delete restaurants
