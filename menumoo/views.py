@@ -6,7 +6,8 @@ from .forms import NameForm, MenuItemForm
 
 #  Security
 from flask import session as login_session
-import random, string
+import random
+import string
 
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
@@ -18,11 +19,13 @@ import requests
 CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 
+
 #  Create a state token to prevent request forgery.
 #  Store it in the session for later validation.
 @app.route('/login')
 def showLogin():
-    state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                    for x in xrange(32))
     login_session['state'] = state
     return render_template('login.html', state=state)
 
@@ -35,7 +38,7 @@ def gconnect():
         response = make_response(json.dumps('Invalid state parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    
+
     code = request.data
 
     try:
@@ -44,13 +47,15 @@ def gconnect():
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
-        response = make_response(json.dumps('Failed to Upgrade the authorization code.'), 401)
+        response = make_response(json.dumps('Failed to Upgrade the\
+                                            authorization code.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     #  Check that the access token is valid.
     access_token = credentials.access_token
-    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
+    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' %
+           access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
 
@@ -61,13 +66,15 @@ def gconnect():
     #  Verify that the access token is used for the intended user.
     gplus_id = credentials.id_token['sub']
     if result['user_id'] != gplus_id:
-        response = make_response(json.dumps("Token's user ID doesn't match given user ID."), 401)
+        response = make_response(json.dumps("Token's user ID doesn't match\
+                                            given user ID."), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     #  Verify that the access token is valid for this app.
     if result['issued_to'] != CLIENT_ID:
-        response = make_response(json.dumps("Token's client ID does not match app's."))
+        response = make_response(json.dumps("Token's client ID does not match\
+                                            app's."))
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -75,7 +82,8 @@ def gconnect():
     stored_credentials = login_session.get('credentials')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_credentials is not None and gplus_id == stored_gplus_id:
-        response = make_response(json.dumps('Current user is already connected.'), 200)
+        response = make_response(json.dumps('Current user is already\
+                                            connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
 
     #  Store the access token in the session for later use.
@@ -99,7 +107,8 @@ def gconnect():
 
     output += '<img src="'
     output += login_session['picture']
-    output += '" style="width: 300px; height: 300px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;">'
+    output += '" style="width: 300px; height: 300px; border-radius: 150px;'
+    output += '-webkit-border-radius: 150px; -moz-border-radius: 150px;">'
     flash("You are now logged in as %s" % login_session['username'])
     return output
 
