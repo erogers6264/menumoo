@@ -24,11 +24,13 @@ CLIENT_ID = json.loads(
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits) for x in xrange(32))
     login_session['state'] = state
-    return render_template('login.html')
+    return render_template('login.html', state=state)
 
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
+    print request.args.get('state')
+    print login_session['state']
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps('Invalid state parameter'), 401)
         response.headers['Content-Type'] = 'application/json'
@@ -42,13 +44,13 @@ def gconnect():
         oauth_flow.redirect_uri = 'postmessage'
         credentials = oauth_flow.step2_exchange(code)
     except FlowExchangeError:
-        response = make_response(json.dumps('Failed to Upgrade th authorization code.'), 401)
+        response = make_response(json.dumps('Failed to Upgrade the authorization code.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     #  Check that the access token is valid.
     access_token = credentials.access_token
-    url = ('https://www.googleapis.com/outh2/v1/tokeninfo?access_token=%s' % access_token)
+    url = ('https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=%s' % access_token)
     h = httplib2.Http()
     result = json.loads(h.request(url, 'GET')[1])
 
@@ -75,6 +77,31 @@ def gconnect():
     if stored_credentials is not None and gplus_id == stored_gplus_id:
         response = make_response(json.dumps('Current user is already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
+
+    #  Store the access token in the session for later use.
+    login_session['credentials'] = credentials.access_token    
+    login_session['gplus_id'] = gplus_id
+
+    #  Get user info
+    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    parameters = {'access_token': credentials.access_token, 'alt':'json'}
+    answer = requests.get(userinfo_url, params=parameters)
+    data = json.loads(answer.text)
+    print data
+
+    login_session['username'] = data["name"]
+    login_session['picture'] = data["picture"]
+
+    output = ''
+    output += '<h1>Welcome, '
+    output +=  login_session['username']
+    output += '!</h1>'
+
+    output += '<img src="'
+    output += login_session['picture']
+    output += '" style="width: 300px; height: 300px; border-radius: 150px; -webkit-border-radius: 150px; -moz-border-radius: 150px;">'
+    flash("You are now logged in as %s" % login_session['username'])
+    return output
 
 
 #  This view shows all restaurants, allowing you to navigate to their
