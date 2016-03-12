@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, jsonify, flash
 from menumoo import app, db
 
-from .models import Restaurant, MenuItem
+from .models import Restaurant, MenuItem, User
 from .forms import NameForm, MenuItemForm
 
 #  Security
@@ -338,3 +338,12 @@ def menuItemJSON(restaurant_id, MenuID):
     item = db.session.query(MenuItem).filter_by(
         restaurant_id=restaurant_id, item_id=MenuID).one()
     return jsonify(MenuItem=item.serialize)
+
+
+def createUser(login_session):
+    newUser = User(name = login_session['username'], email =
+        login_session['email'], picture = login_session['picture'])
+    db.session.add(newUser)
+    db.session.commit()
+    user = db.session.query(User).filter_by(email = login_session['email']).one()
+    return user.id
