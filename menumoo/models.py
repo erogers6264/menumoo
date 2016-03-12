@@ -39,7 +39,7 @@ class Restaurant(db.Model):
         return {
             'name': self.name,
             'description': self.description,
-            'restaurant_id': self.restaurant_id
+            'restaurant_id': self.restaurant_id,
             'user_id': self.user_id
         }
     
@@ -56,8 +56,8 @@ class MenuItem(db.Model):
     price = db.Column(db.String(8))
     restaurant_id = db.Column(db.Integer, db.ForeignKey(
                               'restaurant.restaurant_id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     restaurant = db.relationship(Restaurant)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     user = db.relationship(User)
 
     @property
@@ -68,6 +68,6 @@ class MenuItem(db.Model):
             'course': self.course,
             'description': self.description,
             'price': self.price,
-            'restaurant_id': self.restaurant_id
+            'restaurant_id': self.restaurant_id,
             'user_id': self.user_id
         }
