@@ -20,6 +20,7 @@ class MenuItemForm(Form):
     course = RadioField('Course', choices=[('Appetizer', 'Appetizer'),
                                            ('Entree', 'Entree'),
                                            ('Side', 'Side'),
+                                           ('Beverage', 'Beverage'),                                 
                                            ('Dessert', 'Dessert')],
                         validators=[DataRequired()])
     price = StringField('Price', validators=[DataRequired()])
