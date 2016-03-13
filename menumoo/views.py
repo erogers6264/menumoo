@@ -235,8 +235,7 @@ def editRestaurant(restaurant_id):
         restaurant_id=restaurant_id).one()
 
     if login_session['user_id'] != restaurant.user_id:
-    	flash("You do not have permission to edit this restaurant.")
-    	return redirect('/restaurants')
+    	return "<script>function myFunction() {alert('You are not authorized to edit this restaurant. Please create your own restaurant in order to edit.');}</script><body onload='myFunction()''>"
 
     form = NameForm(obj=restaurant)
 
@@ -261,7 +260,9 @@ def deleteRestaurant(restaurant_id):
         restaurant_id=restaurant_id).one()
 
     if login_session['user_id'] != restaurant.user_id:
-	    return flash("You do not have permission to delete this restaurant.")
+	    return "<script>function myFunction() {alert('You are not authorized to\
+	     delete this restaurant. Please create your own restaurant in order to\
+	     delete.');}</script><body onload='myFunction()''>"
 
 
     if request.method == 'POST':
@@ -305,6 +306,12 @@ def newMenuItem(restaurant_id):
 
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
+
+    if login_session['user_id'] != restaurant.user_id:
+    	return "<script>function myFunction() {alert('You are not authorized \
+    	to create a new item for this restaurant. Please create your own\
+    	restaurant in order to create items.');}</script><body onload='myFunction()''>"
+
     form = MenuItemForm()
 
     if form.validate_on_submit():
@@ -336,8 +343,9 @@ def editMenuItem(restaurant_id, MenuID):
     item = db.session.query(MenuItem).filter_by(item_id=MenuID).one()
 
     if login_session['user_id'] != item.user_id:
-    	flash("You do not have permission to edit this item.")
-    	return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
+    	return "<script>function myFunction() {alert('You are not authorized \
+    	to edit this menu item. Please create your own restaurant in order to\
+    	edit.');}</script><body onload='myFunction()''>"
 
     form = MenuItemForm(obj=item)
 
