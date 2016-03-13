@@ -20,6 +20,29 @@ CLIENT_ID = json.loads(
     open('client_secrets.json', 'r').read())['web']['client_id']
 
 
+#  Helper functions for info about users
+def getUserID(email):
+    try:
+        user = db.session.query(User).filter_by(email=email).one()
+        return user.user_id
+    except:
+        return None
+
+
+def getUserInfo(user_id):
+    user = db.session.query(User).filter_by(user_id=user_id).one()
+    return user
+
+
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=
+        login_session['email'], picture=login_session['picture'])
+    db.session.add(newUser)
+    db.session.commit()
+    user = db.session.query(User).filter_by(email=login_session['email']).one()
+    return user.user_id
+
+
 #  Create a state token to prevent request forgery.
 #  Store it in the session for later validation.
 @app.route('/login')
@@ -29,7 +52,8 @@ def showLogin():
     login_session['state'] = state
     return render_template('login.html', state=state)
 
-
+#  This method exchanges the one time auth code sent by google to the client
+#  side.
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     print request.args.get('state')
@@ -91,7 +115,7 @@ def gconnect():
     login_session['gplus_id'] = gplus_id
 
     #  Get user info
-    userinfo_url = "https://www.googleapis.com/oauth2/v1/userinfo"
+    userinfo_url = "https://www.googleapis.com/userinfo/v2/me"
     parameters = {'access_token': credentials.access_token, 'alt': 'json'}
     answer = requests.get(userinfo_url, params=parameters)
     data = json.loads(answer.text)
@@ -99,6 +123,12 @@ def gconnect():
 
     login_session['username'] = data["name"]
     login_session['picture'] = data["picture"]
+    login_session['email'] = data["email"]
+
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        createUser(login_session)
+    login_session['user_id'] = user_id
 
     output = ''
     output += '<h1>Welcome, '
@@ -134,6 +164,8 @@ def gdisconnect():
         del login_session['gplus_id']
         del login_session['username']
         del login_session['picture']
+        del login_session['email']
+        del login_session['user_id']
 
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
@@ -151,6 +183,7 @@ def gdisconnect():
 @app.route('/restaurants/', methods=['GET', 'POST'])
 def allRestaurants():
     restaurants = db.session.query(Restaurant).all()
+
     form = NameForm()
 
     if form.validate_on_submit():
@@ -161,9 +194,14 @@ def allRestaurants():
         db.session.commit()
         flash("New restaurant has been created!")
         return redirect(url_for('allRestaurants'))
-    return render_template('restaurants.html',
-                           restaurants=restaurants,
-                           form=form)
+
+    if 'username' not in login_session:
+        return render_template('publicrestaurants.html',
+                               restaurants=restaurants)        
+    else:
+        return render_template('restaurants.html',
+                               restaurants=restaurants,
+                               form=form)
 
 
 #  This function returns a form to create a new restaurant
@@ -177,7 +215,9 @@ def newRestaurant():
     if form.validate_on_submit():
         name = form.data['name']
         description = form.data['description']
-        restaurant = Restaurant(name=name, description=description)
+        restaurant = Restaurant(name=name,
+        						description=description,
+        						user_id=login_session['user_id'])
         db.session.add(restaurant)
         db.session.commit()
         flash("New restaurant has been created!")
@@ -193,6 +233,11 @@ def editRestaurant(restaurant_id):
 
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
+
+    if login_session['user_id'] != restaurant.user_id:
+    	flash("You do not have permission to edit this restaurant.")
+    	return redirect('/restaurants')
+
     form = NameForm(obj=restaurant)
 
     if form.validate_on_submit():
@@ -214,6 +259,11 @@ def deleteRestaurant(restaurant_id):
 
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
+
+    if login_session['user_id'] != restaurant.user_id:
+	    return flash("You do not have permission to delete this restaurant.")
+
+
     if request.method == 'POST':
         db.session.delete(restaurant)
         db.session.commit()
@@ -231,7 +281,18 @@ def restaurantMenu(restaurant_id):
         restaurant_id=restaurant_id).one()
     items = db.session.query(MenuItem).filter_by(
         restaurant_id=restaurant_id).all()
-    return render_template('menu.html', restaurant=restaurant, items=items)
+    creator = getUserInfo(restaurant.user_id)
+
+    if 'username' not in login_session or creator.user_id != login_session['user_id']:
+        return render_template('publicmenu.html',
+        					   restaurant=restaurant,
+        					   items=items,
+        					   creator=creator)        
+    else:
+        return render_template('menu.html',
+        					   restaurant=restaurant,
+        					   items=items,
+        					   creator=creator)
 
 
 #  Route for newMenuItem function
@@ -251,7 +312,8 @@ def newMenuItem(restaurant_id):
                         description=form.data['description'],
                         course=form.data['course'],
                         price=form.data['price'],
-                        restaurant_id=restaurant_id)
+                        restaurant_id=restaurant_id, 
+                        user_id=login_session['user_id'])
         db.session.add(item)
         db.session.commit()
         flash("New menu item has been created!")
@@ -272,6 +334,11 @@ def editMenuItem(restaurant_id, MenuID):
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
     item = db.session.query(MenuItem).filter_by(item_id=MenuID).one()
+
+    if login_session['user_id'] != item.user_id:
+    	flash("You do not have permission to edit this item.")
+    	return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))
+
     form = MenuItemForm(obj=item)
 
     if request.method == 'POST' and form.validate():
@@ -297,6 +364,11 @@ def deleteMenuItem(restaurant_id, MenuID):
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
     item = db.session.query(MenuItem).filter_by(item_id=MenuID).one()
+
+    if login_session['user_id'] != item.user_id:
+    	flash("You do not have permission to delete this item.")
+    	return redirect(url_for('restaurantMenu', restaurant_id=restaurant_id))    
+
     if request.method == 'POST':
         db.session.delete(item)
         db.session.commit()
@@ -338,12 +410,3 @@ def menuItemJSON(restaurant_id, MenuID):
     item = db.session.query(MenuItem).filter_by(
         restaurant_id=restaurant_id, item_id=MenuID).one()
     return jsonify(MenuItem=item.serialize)
-
-
-def createUser(login_session):
-    newUser = User(name = login_session['username'], email =
-        login_session['email'], picture = login_session['picture'])
-    db.session.add(newUser)
-    db.session.commit()
-    user = db.session.query(User).filter_by(email = login_session['email']).one()
-    return user.id
