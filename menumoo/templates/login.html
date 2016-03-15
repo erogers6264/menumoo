@@ -5,6 +5,20 @@
 </head>
 
 <body>
+<script>
+	window.fbAsyncInit = function() {
+	FB.init({
+		appId	: '198517123849971'
+		cookie 	: true,  // enable cookies to allow the server to access
+						 // the session
+		xfbml	: true,  // parse social plugins on this page
+		version	: 'v2.2' // use version 2.2
+	});
+
+	};
+
+
+</script>
 <p>The state is: {{ state }}</p>
 <div id="signinButton">
 	<span class="g-signin"
