@@ -15,7 +15,7 @@
 		version	: 'v2.2' // use version 2.2
 	});
 
-	};
+	}
 
 	// Load the SDK asynchronously
 	(function(d, s, id) {
@@ -26,6 +26,30 @@
 		fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
 	
+	function sendTokenToServer() {
+		var access_token = FB.getAuthResponse()['accessToken'];
+		console.log('Welcome! Fetching your access token... ');
+		console.log(access_token);
+		FB.api('/me', function(response) {
+			console.log('Successful login for: ' + response.name);
+		  	$.ajax({
+		  		type: 'POST',
+		  		url: '/fbconnect?state={{ state }}',
+		  		processData: false,
+		  		data: access_token,
+		  		contentType: 'application/octet-stream; charset=utf-8',
+		  		success: function(result) {
+		  			// Handle or verify the server response if necessary.
+		  			if (result) {
+		  				$('#result').html('Login Successful!<br>' + result + '<br>Redirecting...')
+		  				setTimeout(function() {
+		  					window.location.href = "/restaurants";
+		  				}, 4000);
+		  			}
+		  		}
+		  	});
+		});
+	}
 </script>
 <p>The state is: {{ state }}</p>
 <button>
