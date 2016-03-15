@@ -28,6 +28,11 @@
 	
 </script>
 <p>The state is: {{ state }}</p>
+<button>
+	<fb:login-button scope="public_profile, email" onlogin="sendTokenToServer();"><a href="javascript:sendTokenToServer()">Logon with Facebook</a></fb:login-button>
+</button>
+
+
 <div id="signinButton">
 	<span class="g-signin"
 		data-scope="openid email"
