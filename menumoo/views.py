@@ -45,7 +45,7 @@ def createUser(login_session):
 
 #  Create a state token to prevent request forgery.
 #  Store it in the session for later validation.
-#  Send it through to the jinja template
+#  Send state through to the jinja template
 @app.route('/login')
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
@@ -126,10 +126,12 @@ def gconnect():
     login_session['picture'] = data["picture"]
     login_session['email'] = data["email"]
 
+
     user_id = getUserID(login_session['email'])
-    if not user_id:
-        createUser(login_session)
     login_session['user_id'] = user_id
+    if user_id == None:
+        user_id = createUser(login_session)
+        login_session['user_id'] = user_id
 
     output = ''
     output += '<h1>Welcome, '
