@@ -53,6 +53,16 @@ def showLogin():
     login_session['state'] = state
     return render_template('login.html', state=state)
 
+
+@app.route('/fbconnect')
+def fbconnect():
+    if request.args.get('state') != login_session['state']:
+        response = make_response(json.dumps("Invalid state parameter"), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+    access_token = request.data
+
+
 #  This method exchanges the one time auth code sent by google to the client
 #  side.
 @app.route('/gconnect', methods=['POST'])
@@ -179,6 +189,7 @@ def gdisconnect():
             json.dumps('Failed to revoke token for given user.'), 400)
         response.headers['Content-Type'] = 'application/json'
         return response
+
 
 #  This view shows all restaurants, allowing you to navigate to their
 #  specific menus as well as edit or delete restaurants
