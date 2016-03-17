@@ -62,6 +62,30 @@ def fbconnect():
         return response
     access_token = request.data
 
+    #  Exchange the access token for a long lived server-side token for server
+    #  to server API calls.
+    app_id = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_id']
+    app_secret = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_secret']
+    url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&\
+           client_id=%s&client_secret=%s&fb_exchange_token=%s' % (app_id, app_secret, access_token)
+    h = httplib2.Http()
+    result = h.request(url, 'GET')[1]
+
+    #  Strip expire tag from access token
+    token = result.split('&')[0]
+    #  Use token to get user info from API
+    userinfo_url = 'https://graph.facebook.com/v2.4/me'
+
+    url = 'https://graph.facebook.com/v2.4/me?%s&fields=name,id,email' % token
+    result = h.request(url, 'GET')[1]
+    data = json.loads(result)
+
+    login_session['username'] = data['name']
+    login_session['email'] = data['email']
+    login_session['facebook_id'] = data['id']
+
+    #  Get user picture
+    url = ''
 
 #  This method exchanges the one time auth code sent by google to the client
 #  side.
