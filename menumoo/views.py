@@ -16,9 +16,6 @@ import json
 from flask import make_response
 import requests
 
-CLIENT_ID = json.loads(
-    open('client_secrets.json', 'r').read())['web']['client_id']
-
 
 #  Helper functions for info about users
 def getUserID(email):
@@ -91,7 +88,7 @@ def fbconnect():
     #  See if the user exists
     user_id = getUserID(login_session['email'])
     if not user_id:
-        user_id = createUser('login_session')
+        user_id = createUser(login_session)
     login_session['user_id'] = user_id
 
     output = ''
@@ -105,6 +102,10 @@ def fbconnect():
     output += '-webkit-border-radius: 150px; -moz-border-radius: 150px;">'
     flash("You are now logged in as %s" % login_session['username'])
     return output
+
+#  Load the google client id
+CLIENT_ID = json.loads(
+    open('client_secrets.json', 'r').read())['web']['client_id']
 
 
 #  This method exchanges the one time auth code sent by google to the client
