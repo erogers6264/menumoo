@@ -22,7 +22,7 @@ for you.
     cd /vagrant
 
 Set up the sqlite database by calling the `create_all()` method from a python
-shell.
+shell in the app root directory.
 
 ```python
 from menumoo import db
@@ -44,6 +44,7 @@ working directory for `client_secrets.json` (Google) and `fb_client_secrets.json
 
 ## Bugs and feature requests
 Have a bug or a feature request? Please e-mail me at erogers6264@gmail.com
+or fork and implement yourself! Pull requests welcome.
 
 ## Creators
 Ethan Rogers, Udacity
