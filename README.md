@@ -18,8 +18,10 @@ system in place to prevent users from editing each others' entries.
 If you use vagrant, the pg_config.sh will provision the development environment
 for you.
 
-    vagrant up && vagrant ssh
-    cd /vagrant
+```shell
+vagrant up && vagrant ssh
+cd /vagrant
+```
 
 Set up the sqlite database by calling the `create_all()` method from a python
 shell in the app root directory.
