@@ -68,6 +68,9 @@ def fbconnect():
 
     #  Strip expire tag from access token
     token = result.split('&')[0]
+
+    #  Save the access token to be able to revoke fb permissions on disconnect
+    login_session['provider'] = 'facebook'
     login_session['access_token'] = token
 
     #  Use token to get user info from API
@@ -112,14 +115,7 @@ def fbdisconnect():
     url = 'https://graph.facebook.com/%s/permissions?%s' % (facebook_id,access_token)
     h = httplib2.Http()
     result = h.request(url, 'DELETE')[1]
-    del login_session['username']
-    del login_session['email']
-    del login_session['facebook_id']
-    del login_session['picture']
-    del login_session['user_id']
-    del login_session['access_token']
     return "You have been logged out."
-
 
 
 #  Load the google client id
@@ -186,6 +182,7 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
 
     #  Store the access token in the session for later use.
+    login_session['provider'] = 'google'
     login_session['credentials'] = credentials.access_token
     login_session['gplus_id'] = gplus_id
 
@@ -235,14 +232,6 @@ def gdisconnect():
     result = h.request(url, 'GET')[0]
 
     if result['status'] == '200':
-        #  Reset the users session.
-        del login_session['credentials']
-        del login_session['gplus_id']
-        del login_session['username']
-        del login_session['picture']
-        del login_session['email']
-        del login_session['user_id']
-
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -252,6 +241,31 @@ def gdisconnect():
             json.dumps('Failed to revoke token for given user.'), 400)
         response.headers['Content-Type'] = 'application/json'
         return response
+
+
+@app.route('/disconnect')
+def disconnect():
+    if 'provider' in login_session:
+        if login_session['provider'] == 'google':
+            gdisconnect()
+            del login_session['gplus_id']
+            del login_session['credentials']
+        if login_session['provider'] == 'facebook':
+            fbdisconnect()
+            del login_session['facebook_id']
+            del login_session['access_token']
+
+        del login_session['username']
+        del login_session['email']
+        del login_session['picture']
+        del login_session['user_id']
+        del login_session['provider']
+        flash('You have been successfully logged out.')
+        return redirect(url_for('allRestaurants'))
+    else:
+        flash("You were not logged in to begin with!")
+        return redirect(url_for('allRestaurants'))
+
 
 
 #  This view shows all restaurants, allowing you to navigate to their
