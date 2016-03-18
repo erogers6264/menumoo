@@ -68,6 +68,7 @@ def fbconnect():
 
     #  Strip expire tag from access token
     token = result.split('&')[0]
+    login_session['access_token'] = token
 
     #  Use token to get user info from API
     url = 'https://graph.facebook.com/v2.4/me?%s&fields=name,id,email' % token
@@ -102,6 +103,24 @@ def fbconnect():
     output += '-webkit-border-radius: 150px; -moz-border-radius: 150px;">'
     flash("You are now logged in as %s" % login_session['username'])
     return output
+
+
+@app.route('/fbdisconnect')
+def fbdisconnect():
+    facebook_id = login_session['facebook_id']
+    access_token = login_session['access_token']
+    url = 'https://graph.facebook.com/%s/permissions?%s' % (facebook_id,access_token)
+    h = httplib2.Http()
+    result = h.request(url, 'DELETE')[1]
+    del login_session['username']
+    del login_session['email']
+    del login_session['facebook_id']
+    del login_session['picture']
+    del login_session['user_id']
+    del login_session['access_token']
+    return "You have been logged out."
+
+
 
 #  Load the google client id
 CLIENT_ID = json.loads(
