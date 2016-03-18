@@ -52,7 +52,9 @@
 </script>
 <p>The state is: {{ state }}</p>
 <button>
-    <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();"><a href="javascript:sendTokenToServer();">Logon with Facebook</a></fb:login-button>
+    <fb:login-button scope="public_profile,email" onlogin="sendTokenToServer();">
+    <!-- <a href="javascript:sendTokenToServer();">Login with Facebook</a> -->
+    </fb:login-button>
 </button>
 
 
@@ -75,7 +77,9 @@ function signInCallback(authResult) {
         // Hide the sign-in button now that the user is authorized,
         $('#signinButton').attr('style', 'display: none');
 
-        // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+        // Send the one-time-use code to the server, if the server responds,
+        // write a 'login successful' message to the web page and then
+        // redirect back to the main restaurants page
         $.ajax({
             type: 'POST',
             url: '/gconnect?state={{state}}',
