@@ -2,7 +2,13 @@
 {% block nav %}
     <li><a href="{{ url_for('allRestaurants') }}">All Restaurants</a></li>
 {% endblock %}
-{% block heading %}{{ restaurant.name }} Menu{% endblock %}
+{% block heading %}
+	{{ restaurant.name }} Menu
+	<div class="creator">
+		<img src="{{ creator.picture }}" class="creatorImg">
+		Created by {{ creator.name }}
+	</div>
+{% endblock %}
 {% block content %}
 	{% if items %}
 		{% for item in items %}
