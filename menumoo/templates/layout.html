@@ -49,6 +49,13 @@
                         {% endblock %}
                     </ul>
                 </nav>
+                <div class="login">
+                  {% if 'username' not in session %}
+                  <a href="{{ url_for('showLogin') }}">Log in</a>
+                  {% else %}
+                  <a href="{{ url_for('disconnect') }}">Disconnect</a>
+                  {% endif %}
+                </div>
                 {% with messages = get_flashed_messages() %}
                 {% if messages %}
                 <ul class="flashes">
