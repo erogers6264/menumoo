@@ -54,38 +54,65 @@ def showLogin():
     return render_template('login.html', state=state)
 
 
-@app.route('/fbconnect')
+@app.route('/fbconnect', methods=['GET', 'POST'])
 def fbconnect():
     if request.args.get('state') != login_session['state']:
         response = make_response(json.dumps("Invalid state parameter"), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
     access_token = request.data
-
+    print access_token
     #  Exchange the access token for a long lived server-side token for server
     #  to server API calls.
     app_id = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_id']
+    print app_id
     app_secret = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_secret']
-    url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&\
-           client_id=%s&client_secret=%s&fb_exchange_token=%s' % (app_id, app_secret, access_token)
+    print app_secret
+    url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (app_id, app_secret, access_token)
+    print url
     h = httplib2.Http()
     result = h.request(url, 'GET')[1]
+    print result
 
     #  Strip expire tag from access token
     token = result.split('&')[0]
-    #  Use token to get user info from API
-    userinfo_url = 'https://graph.facebook.com/v2.4/me'
 
+    #  Use token to get user info from API
     url = 'https://graph.facebook.com/v2.4/me?%s&fields=name,id,email' % token
     result = h.request(url, 'GET')[1]
     data = json.loads(result)
+    print data
 
     login_session['username'] = data['name']
     login_session['email'] = data['email']
     login_session['facebook_id'] = data['id']
 
     #  Get user picture
-    url = ''
+    url = 'https://graph.facebook.com/v2.4/me/picture?%s&redirect=0&height=300&width=300' % token
+    result = h.request(url, 'GET')[1]
+    print result
+    data = json.loads(result)
+
+    login_session['picture'] = data['data']['url']
+    
+    #  See if the user exists
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser('login_session')
+    login_session['user_id'] = user_id
+
+    output = ''
+    output += '<h1>Welcome, '
+    output += login_session['username']
+    output += '!</h1>'
+
+    output += '<img src="'
+    output += login_session['picture']
+    output += '" style="width: 300px; height: 300px; border-radius: 150px;'
+    output += '-webkit-border-radius: 150px; -moz-border-radius: 150px;">'
+    flash("You are now logged in as %s" % login_session['username'])
+    return output
+
 
 #  This method exchanges the one time auth code sent by google to the client
 #  side.
@@ -162,10 +189,9 @@ def gconnect():
 
 
     user_id = getUserID(login_session['email'])
-    login_session['user_id'] = user_id
-    if user_id == None:
+    if not user_id:
         user_id = createUser(login_session)
-        login_session['user_id'] = user_id
+    login_session['user_id'] = user_id
 
     output = ''
     output += '<h1>Welcome, '
