@@ -33,6 +33,7 @@ class Restaurant(db.Model):
     description = db.Column(db.String(250))
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     user = db.relationship(User)
+    picture = db.Column(db.String)
 
     @property
     def serialize(self):

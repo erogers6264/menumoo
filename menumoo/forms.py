@@ -12,6 +12,7 @@ class NameForm(Form):
                        "You need to provide a name.")])
     description = StringField('Description', validators=[DataRequired(
                               "You need to provide a description.")])
+    picture = StringField('Picture URL')
 
 
 class MenuItemForm(Form):
