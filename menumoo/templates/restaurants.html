@@ -33,6 +33,7 @@
     <div class="box">
         <h4><a href="{{ url_for('restaurantMenu', restaurant_id=restaurant.restaurant_id) }}">{{ restaurant.name }}</a></h4>
         <p>{{ restaurant.description }}</p>
+        <img src="{{ restaurant.picture }}">
         <div class="crud">            
             <a href="{{ url_for('editRestaurant', restaurant_id=restaurant.restaurant_id) }}">Edit</a>
             <a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.restaurant_id) }}">Delete</a>

@@ -77,6 +77,10 @@ blockquote {
 	padding: 2% 2%;
 }
 
+.box img {
+	max-width: 100%;
+}
+
 .box h4 {
 	margin-bottom: -1%;
 	margin-top: 4%;

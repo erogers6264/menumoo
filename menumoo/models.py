@@ -41,7 +41,8 @@ class Restaurant(db.Model):
             'name': self.name,
             'description': self.description,
             'restaurant_id': self.restaurant_id,
-            'user_id': self.user_id
+            'user_id': self.user_id,
+            'picture': self.picture
         }
 
 

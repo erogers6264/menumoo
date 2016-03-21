@@ -309,9 +309,11 @@ def newRestaurant():
     if form.validate_on_submit():
         name = form.data['name']
         description = form.data['description']
+        picture = form.data['picture']
         restaurant = Restaurant(name=name,
                                 description=description,
-                                user_id=login_session['user_id'])
+                                user_id=login_session['user_id'],
+                                picture=picture)
         db.session.add(restaurant)
         db.session.commit()
         flash("New restaurant has been created!")
