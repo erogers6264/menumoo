@@ -8,13 +8,14 @@ from .forms import NameForm, MenuItemForm
 from flask import session as login_session
 import random
 import string
-
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 import httplib2
 import json
 from flask import make_response
 import requests
+
+from functools import wraps
 
 
 #  Helper functions for info about users
@@ -39,6 +40,16 @@ def createUser(login_session):
     db.session.commit()
     user = db.session.query(User).filter_by(email=login_session['email']).one()
     return user.user_id
+
+
+#  Create a view decorator to see if the user is logged in
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'username' not in login_session:
+            return redirect('/login')
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 #  Create a state token to prevent request forgery.
@@ -300,10 +311,8 @@ def allRestaurants():
 
 #  This function returns a form to create a new restaurant
 @app.route('/restaurants/new/', methods=['GET', 'POST'])
+@login_required
 def newRestaurant():
-    if 'username' not in login_session:
-        return redirect('/login')
-
     form = NameForm()
 
     if form.validate_on_submit():
@@ -323,10 +332,8 @@ def newRestaurant():
 
 #  This function returns a page for editing a restaurant's information
 @app.route('/restaurants/<int:restaurant_id>/edit/', methods=['GET', 'POST'])
+@login_required
 def editRestaurant(restaurant_id):
-    if 'username' not in login_session:
-        return redirect('/login')
-
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
 
@@ -348,10 +355,8 @@ def editRestaurant(restaurant_id):
 
 
 @app.route('/restaurants/<int:restaurant_id>/delete/', methods=['GET', 'POST'])
+@login_required
 def deleteRestaurant(restaurant_id):
-    if 'username' not in login_session:
-        return redirect('/login')
-
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
 
@@ -394,10 +399,8 @@ def restaurantMenu(restaurant_id):
 @app.route('/restaurants/<int:restaurant_id>/new/', methods=['GET', 'POST'])
 @app.route('/restaurants/<int:restaurant_id>/menu/new/',
            methods=['GET', 'POST'])
+@login_required
 def newMenuItem(restaurant_id):
-    if 'username' not in login_session:
-        return redirect('/login')
-
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
 
@@ -426,10 +429,8 @@ def newMenuItem(restaurant_id):
 #  Route for editMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/edit/',
            methods=['GET', 'POST'])
+@login_required
 def editMenuItem(restaurant_id, MenuID):
-    if 'username' not in login_session:
-        return redirect('/login')
-
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
     item = db.session.query(MenuItem).filter_by(item_id=MenuID).one()
@@ -455,10 +456,8 @@ def editMenuItem(restaurant_id, MenuID):
 #  Route for deleteMenuItem function
 @app.route('/restaurants/<int:restaurant_id>/<int:MenuID>/delete/',
            methods=['GET', 'POST'])
+@login_required
 def deleteMenuItem(restaurant_id, MenuID):
-    if 'username' not in login_session:
-        return redirect('/login')
-
     restaurant = db.session.query(Restaurant).filter_by(
         restaurant_id=restaurant_id).one()
     item = db.session.query(MenuItem).filter_by(item_id=MenuID).one()
