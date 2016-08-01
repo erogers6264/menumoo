@@ -1,4 +1,4 @@
-# [MenuMoo](https://github.com/erogers6264/menumoo)
+# [MenuMoo](http://ec2-52-36-239-162.us-west-2.compute.amazonaws.com/)
 For this project I used the Flask web framework to build an application
 to manage and view the menus of various restaurants. It connects to a database
 via SQLAlchemy, and can perform CRUD operations using WTForms for users 
