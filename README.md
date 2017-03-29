@@ -1,7 +1,7 @@
-# [MenuMoo](http://ec2-52-36-239-162.us-west-2.compute.amazonaws.com/)
+# MenuMoo
 For this project I used the Flask web framework to build an application
 to manage and view the menus of various restaurants. It connects to a database
-via SQLAlchemy, and can perform CRUD operations using WTForms for users 
+via SQLAlchemy, and can perform CRUD operations using WTForms for users
 to interact with the application.
 
 It implements basic user authentication utilizing OAuth 2.0 through a
@@ -32,7 +32,7 @@ db.create_all()
 ```
 
 Running `python runserver.py` from within a vagrant virtual environment
-will allow you to interface with the application via localhost:5000 in 
+will allow you to interface with the application via localhost:5000 in
 your browser.
 
 ```
